@@ -29,12 +29,14 @@ class EducationControllerImp extends EducationController {
       'text2': 'Cairo University Tuitions',
       'TextFieldLabel': 'Student ID',
       'imageUrl': 'assets/images/education/Cairo Univesity.jpeg',
+      'email': 'cairo_university@smartpay.com'
     },
     {
       'text': 'American School',
       'text2': 'American School Tuitions',
       'TextFieldLabel': 'Student ID',
       'imageUrl': 'assets/images/education/American School.png',
+      'email': 'american_school@smartpay.com'
     },
     {
       'text': '30 June schools ',
@@ -42,12 +44,14 @@ class EducationControllerImp extends EducationController {
       'TextFieldLabel': 'Student ID',
       'TextFieldLabel2': 'National ID',
       'imageUrl': 'assets/images/education/30 June schools.png',
+      'email': '30_june_schools@smartpay.com'
     },
     {
       'text': 'Ain Shams University',
       'text2': 'Ain Shams University Tuitions',
       'TextFieldLabel': 'Student ID',
       'imageUrl': 'assets/images/education/Ain Shams University.png',
+      'email': 'ain_shams_university@smartpay.com'
     },
     {
       'text': 'Nile University',
@@ -55,28 +59,35 @@ class EducationControllerImp extends EducationController {
       'TextFieldLabel': 'National ID',
       'TextFieldLabel2': 'Name',
       'imageUrl': 'assets/images/education/Nile University.png',
+      'email': 'nile_university@smartpay.com'
     },
     {
       'text': 'Egyptian E-learing',
       'text2': 'Egyptian E-learing Tuitions',
       'TextFieldLabel': 'Student ID',
       'imageUrl': 'assets/images/education/Egyptian E-learing.jpeg',
+      'email': 'egyptian_e_learing@smartpay.com'
     },
     {
       'text': 'International Academy',
       'text2': 'International Academy Tuitions',
       'TextFieldLabel': 'Student ID',
       'imageUrl': 'assets/images/we.png',
+      'email': 'international_academy@smartpay.com'
     },
     {
       'text': 'Mina University',
       'text2': 'Mina University Tuitions',
       'TextFieldLabel': 'Student ID',
       'imageUrl': 'assets/images/we.png',
+      'email': 'mina_university@smartpay.com'
     },
   ];
+
+  String selectedProviderEmail = '';
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = EducationProvidersList[index]['email'];
   }
 
   @override
@@ -85,10 +96,7 @@ class EducationControllerImp extends EducationController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(studentID);
-      print(NationalID);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -105,22 +113,35 @@ class EducationControllerImp extends EducationController {
   @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body =
-          json.encode({"number": studentID.text, "number": NationalID.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": 10000,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

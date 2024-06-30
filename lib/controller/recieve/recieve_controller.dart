@@ -7,7 +7,7 @@ class RecieveController extends GetxController {
     {'text': ' Mobile Number ', 'imageUrl': 'assets/images/send 1.png'},
     {'text': ' Payment Address ', 'imageUrl': 'assets/images/send 3.png'},
     {'text': ' Multiple Collect ', 'imageUrl': 'assets/images/Recieve 3.png'},
-    {'text': ' scan QR ', 'imageUrl': 'assets/images/Pocket.png'},
+    {'text': ' Generate QR ', 'imageUrl': 'assets/images/Pocket.png'},
   ];
 
   void changeIndex(int index) {

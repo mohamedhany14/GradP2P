@@ -187,7 +187,8 @@ class Finantialbills extends StatelessWidget {
                                         return validInput(
                                             val!, 11, 11, "phonenumber");
                                       },
-                                      labeltext: "Phone Number ",
+                                      labeltext: controller.FinancialList[
+                                          controller.current.value]['TextFieldLabel'],
                                       prefix: Icon(
                                         Icons.mobile_friendly_rounded,
                                       ),

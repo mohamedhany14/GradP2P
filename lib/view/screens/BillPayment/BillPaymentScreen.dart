@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gradp2p/core/constants/routes.dart';
 import 'package:gradp2p/view/widget/homeContainers/homeCreditcardContainer.dart';
+import 'package:gradp2p/view/widget/send&recieve/send_recieveCaed.dart';
 
 class Billpaymentscreen extends StatelessWidget {
   Billpaymentscreen({super.key});
@@ -40,7 +41,7 @@ class Billpaymentscreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const CreditCardContainer(),
+           send_recieveCard(),
             const SizedBox(
               height: 60,
             ),

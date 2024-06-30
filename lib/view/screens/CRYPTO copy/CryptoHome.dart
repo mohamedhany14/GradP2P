@@ -134,7 +134,7 @@ class _CryptoHomeState extends State<CryptoHome> {
                               ),
                             )
                           : ListView.builder(
-                              itemCount: 8,
+                              itemCount: 10,
                               // shrinkWrap: true,
                               // physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {

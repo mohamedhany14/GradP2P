@@ -26,30 +26,37 @@ class FinantialControllerImp extends FinantialController {
     {
       'text': 'Valu Company',
       'text2': 'Valu Company',
-      'TextFieldLabel': 'Mobile Number',
+      'TextFieldLabel': 'National ID',
       'imageUrl': 'assets/images/Financial/Valu Company.jpeg',
+      'email': 'valu_company@smartpay.com'
     },
     {
       'text': 'B.TECH',
       'text2': 'B.TECH',
       'TextFieldLabel': 'Payment Code(7-Digits)',
       'imageUrl': 'assets/images/Financial/B.TECH.png',
+      'email': 'b_tech@smartpay.com'
     },
     {
       'text': 'Contact',
       'text2': 'Contact',
       'TextFieldLabel': 'National ID',
       'imageUrl': 'assets/images/Financial/Contact.png',
+      'email': 'contact@smartpay.com'
     },
     {
       'text': 'Souhoola',
       'text2': 'Souhoola',
       'TextFieldLabel': 'National ID',
       'imageUrl': 'assets/images/Financial/Souhoola.png',
+      'email': 'souhoola@smartpay.com'
     },
   ];
+
+  String selectedProviderEmail = '';
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = FinancialList[index]['email'];
   }
 
   @override
@@ -58,9 +65,7 @@ class FinantialControllerImp extends FinantialController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(MobileNumber);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -76,21 +81,35 @@ class FinantialControllerImp extends FinantialController {
   @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({"number": MobileNumber.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": 5000,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

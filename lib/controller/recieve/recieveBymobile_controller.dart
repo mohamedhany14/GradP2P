@@ -29,7 +29,7 @@ class RecievebymobileControllerImp extends RecievebymobileController {
       print(mobilenumber);
       print(amount);
       Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Recievebymobile();
     } else {
       print("Not Valid");
     }
@@ -46,9 +46,21 @@ class RecievebymobileControllerImp extends RecievebymobileController {
   @override
   Future<void> Recievebymobile() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/receive'));
       request.body =
           json.encode({"phone": mobilenumber.text, "amount": amount.text});
       request.headers.addAll(headers);
@@ -57,11 +69,9 @@ class RecievebymobileControllerImp extends RecievebymobileController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

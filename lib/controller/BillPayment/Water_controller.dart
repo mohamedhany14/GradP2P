@@ -22,60 +22,73 @@ class WaterControllerImp extends WaterController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   var current = 0.obs;
 
-   final List<Map<String, dynamic>> WProvidersList = [
+  final List<Map<String, dynamic>> WProvidersList = [
     {
       'text': 'AlexWater',
       'TextFieldLabel': 'E-Payment Code(14-Digits)',
       'imageUrl': 'assets/images/we.png',
+      'email': 'AlexWater@smartpay.com'
     },
     {
       'text': 'Cairo Water',
       'TextFieldLabel': 'E-Payment Code(14-Digits)',
       'imageUrl': 'assets/images/we.png',
+      'email': 'CairoWater@smartpay.com'
     },
     {
       'text': 'Giza Water',
       'TextFieldLabel': 'Account Number(9-Digits)',
       'imageUrl': 'assets/images/we.png',
+      'email': 'GizaWater@smartpay.com'
     },
     {
       'text': 'Suez Canal Authority',
       'TextFieldLabel': 'Subscription number',
       'imageUrl': 'assets/images/we.png',
+      'email': 'SuezCanal@smartpay.com'
     },
     {
       'text': 'AlexWater',
       'TextFieldLabel': 'E-Payment Code(6-Digits)',
       'imageUrl': 'assets/images/we.png',
+      'email': 'AlexWater@smartpay.com'
     },
     {
       'text': 'Damitte Water Company',
       'TextFieldLabel': 'Client ID',
       'imageUrl': 'assets/images/we.png',
+      'email': 'DamitteWater@smartpay.com'
     },
     {
       'text': 'Minya Water Company',
       'TextFieldLabel': 'Subscription Number',
       'imageUrl': 'assets/images/we.png',
+      'email': 'MinyaWater@smartpay.com'
     },
     {
       'text': 'Matrouh Water Company',
       'TextFieldLabel': 'Subscription Number',
       'imageUrl': 'assets/images/we.png',
+      'email': 'MatrouhWater@smartpay.com'
     },
     {
       'text': 'Red Sea Water Company',
       'TextFieldLabel': 'Subscription Number',
       'imageUrl': 'assets/images/we.png',
+      'email': 'RedSeaWater@smartpay.com'
     },
     {
       'text': 'Fayoum Drinking and Water',
       'TextFieldLabel': 'Subscription Number',
       'imageUrl': 'assets/images/we.png',
+      'email': 'FayoumWater@smartpay.com'
     },
   ];
+
+  String selectedProviderEmail = '';
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = WProvidersList[index]['email'];
   }
 
   @override
@@ -84,9 +97,7 @@ class WaterControllerImp extends WaterController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(subnumber);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -99,24 +110,38 @@ class WaterControllerImp extends WaterController {
     super.onInit();
   }
 
-  @override
+ @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({"number": subnumber.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": 300,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

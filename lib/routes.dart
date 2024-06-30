@@ -29,10 +29,12 @@ import 'package:gradp2p/view/screens/auth/otp.dart';
 import 'package:gradp2p/view/screens/auth/phoneVarification.dart';
 import 'package:gradp2p/view/screens/auth/signup.dart';
 import 'package:gradp2p/view/screens/bottomNavBar.dart';
+import 'package:gradp2p/view/screens/collect/collectSummary.dart';
 import 'package:gradp2p/view/screens/home%20.dart';
 import 'package:gradp2p/view/screens/onboardingScreen.dart';
 import 'package:gradp2p/view/screens/recieveScreens/recieveScreen.dart';
 import 'package:gradp2p/view/screens/sendScreens/sendScreen.dart';
+import 'package:gradp2p/view/screens/service.dart';
 import 'package:gradp2p/view/screens/transactionHistory.dart';
 import 'package:gradp2p/view/screens/collect/collectNotifications.dart';
 
@@ -81,4 +83,10 @@ List<GetPage<dynamic>>? routes = [
             qrData: [],
           )),
   GetPage(name: AppRoute.ReceiveMoneyScreen, page: () => ReceiveMoneyScreen()),
+  GetPage(
+      name: AppRoute.Collectsummary,
+      page: () => Collectsummary(
+            notification: {},
+          )),
+  GetPage(name: AppRoute.service, page: () => service()),
 ];

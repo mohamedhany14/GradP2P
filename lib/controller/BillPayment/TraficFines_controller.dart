@@ -44,9 +44,7 @@ class TraficfinesControllerImp extends TraficfinesController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(number);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -62,10 +60,25 @@ class TraficfinesControllerImp extends TraficfinesController {
   @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({"number": number.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": 'Trafic@smartpay.com',
+        "amount": 300,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
@@ -76,7 +89,6 @@ class TraficfinesControllerImp extends TraficfinesController {
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

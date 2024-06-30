@@ -28,34 +28,41 @@ class InternetControllerImp extends InternetController {
       'text2': 'WE-Home Internet Invoice',
       'TextFieldLabel': '  Phone no. ',
       'imageUrl': 'assets/images/we.png',
+      'email': 'We@smartpay.com'
     },
     {
       'text': 'Vodafone',
       'text2': 'Vodafone ADSL',
       'TextFieldLabel': '  Phone no. ',
       'imageUrl': 'assets/images/vodafone.png',
+      'email': 'Vodafone@smartpay.com'
     },
     {
       'text': 'Etisalat',
       'text2': 'Etisalat ADSL',
       'TextFieldLabel': '  Phone no. ',
       'imageUrl': 'assets/images/Etisalat.png',
+      'email': 'Etisalat@smartpay.com'
     },
     {
       'text': 'Orange DSL',
       'text2': 'Orange ADSL',
       'TextFieldLabel': '  Phone no. ',
       'imageUrl': 'assets/images/orange.png',
+      'email': 'Orange@smartpay.com'
     },
     {
       'text': 'noor DSL',
       'text2': 'noor ADSL',
       'TextFieldLabel': '  Phone no. ',
       'imageUrl': 'assets/images/Noor adsl.jpeg',
+      'email': 'noor@smartpay.com'
     },
   ];
+  String selectedProviderEmail = '';
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = DSLProvidersList[index]['email'];
   }
 
   @override
@@ -64,9 +71,7 @@ class InternetControllerImp extends InternetController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(PhoneNumber);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -82,21 +87,35 @@ class InternetControllerImp extends InternetController {
   @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({"PhoneNumber": PhoneNumber.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": 300,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

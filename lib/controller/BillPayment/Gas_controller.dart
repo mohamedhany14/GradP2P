@@ -25,32 +25,39 @@ class GasControllerImp extends GasController {
   final List<Map<String, dynamic>> GProvidersList = [
     {
       'text': 'Petrotrade',
-      'TextFieldLabel': '  Subscriber Number (16 Digits) ',
+      'TextFieldLabel': 'Subscriber Number (16 Digits)',
       'imageUrl': 'assets/images/Petrotrade Gas Provider.jpg',
+      'email': 'petrotrade@smartpay.com'
     },
     {
-      'text': '  Taqa Gas  ',
-      'TextFieldLabel': '  Subscriber Number (16 Digits) ',
-      'imageUrl': 'assets/images/taqa_arabia_logo.jpeg'
+      'text': 'Taqa Gas',
+      'TextFieldLabel': 'Subscriber Number (16Digits)',
+      'imageUrl': 'assets/images/taqa_arabia_logo.jpeg',
+      'email': 'taqa_gas@smartpay.com'
     },
     {
-      'text': '  NAT Gas  ',
-      'TextFieldLabel': '  Subscriber Number (16 Digits) ',
-      'imageUrl': 'assets/images/natgascomeg_logo.jpeg'
+      'text': 'NAT Gas',
+      'TextFieldLabel': 'Subscriber Number (16 Digits)',
+      'imageUrl': 'assets/images/natgascomeg_logo.jpeg',
+      'email': 'nat_gas@smartpay.com'
     },
     {
       'text': 'Gastec',
       'TextFieldLabel': 'Bill Number(6-Digits)',
       'imageUrl': 'assets/images/Gastec.png',
+      'email': 'gastec@smartpay.com'
     },
     {
       'text': 'Master Gas',
       'TextFieldLabel': 'Account Code',
       'imageUrl': 'assets/images/Master gas.jpeg',
+      'email': 'master_gas@smartpay.com'
     },
   ];
+  String selectedProviderEmail = '';
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = GProvidersList[index]['email'];
   }
 
   @override
@@ -59,9 +66,7 @@ class GasControllerImp extends GasController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(subnumber);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -77,21 +82,36 @@ class GasControllerImp extends GasController {
   @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({"number": subnumber.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": 300,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
+        Get.snackbar("success", "success");
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

@@ -28,65 +28,77 @@ class ElectricityControllerImp extends ElectricityController {
       'text2': 'South Cairo',
       'TextFieldLabel': 'E-Payment Code',
       'imageUrl': 'assets/images/South Cairo E.jpeg',
+      'email': 'SouthCairo@smartpay.com'
     },
     {
       'text': 'North Cairo',
       'text2': 'North Cairo',
       'TextFieldLabel': 'Payment Code',
       'imageUrl': 'assets/images/North Cairo E.jpeg',
+      'email': 'NorthCairo@smartpay.com'
     },
     {
       'text': 'Canal Electricity',
       'text2': 'Canal Electricity',
       'TextFieldLabel': 'Subscriber ID',
       'imageUrl': 'assets/images/Canal Electricity E.png',
+      'email': 'CanalElectricity@smartpay.com'
     },
     {
       'text': 'Alexandria Electricty',
       'text2': 'Alexandria Electricty',
       'TextFieldLabel': 'E-Code(16-Digits)',
       'imageUrl': 'assets/images/Alexandria Electricty E.jpeg',
+      'email': 'AlexandriaElectricty@smartpay.com'
     },
     {
       'text': 'South Delta Electricity',
       'text2': 'South Delta Electricity',
       'TextFieldLabel': 'Subscriber ID(13-Digits)',
       'imageUrl': 'assets/images/South Delta Electricity E.jpeg',
+      'email': 'SouthDeltaElectricity@smartpay.com'
     },
     {
       'text': 'Upper Egypt Electricity',
       'text2': 'Upper Egypt Electricity',
       'TextFieldLabel': 'E-Payment Code(16-Digits)',
       'imageUrl': 'assets/images/Upper Egypt Electricity E.jpeg',
+      'email': 'UpperEgyptElectricity@smartpay.com'
     },
     {
       'text': 'North Delta Electricity',
       'text2': 'North Delta Electricity',
       'TextFieldLabel': 'Payment Code(13-Digits after /)',
       'imageUrl': 'assets/images/North Delta Electricity E.jpeg',
+      'email': 'NorthDeltaElectricity@smartpay.com'
     },
     {
       'text': 'TAQA Power',
       'text2': 'TAQA Power',
       'TextFieldLabel': 'Electricity Meter Number.',
       'imageUrl': 'assets/images/taqa_arabia_logo.jpeg',
+      'email': 'TAQAPower@smartpay.com'
     },
     {
       'text': 'Injaz Electricity',
       'text2': 'Injaz Electricity',
       'TextFieldLabel': 'Bill Nubmer.',
       'imageUrl': 'assets/images/Injaz Electricity E.png',
+      'email': 'InjazElectricity@smartpay.com'
     },
     {
       'text': 'Middle Egypt Electricity',
       'text2': 'Middle Egypt Electricity',
       'TextFieldLabel': 'Subscription Number(10-Digits)',
       'imageUrl': 'assets/images/Middle Egypt Electricity E.jpeg',
+      'email': 'MiddleEgyptElectricity@smartpay.com'
     },
   ];
 
+  String selectedProviderEmail = '';
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = EProvidersList[index]['email'];
   }
 
   @override
@@ -95,9 +107,7 @@ class ElectricityControllerImp extends ElectricityController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(number);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -113,21 +123,35 @@ class ElectricityControllerImp extends ElectricityController {
   @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({"number": number.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": 300,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

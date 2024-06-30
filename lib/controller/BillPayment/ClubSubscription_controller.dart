@@ -30,6 +30,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Subscription Number',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Matrix Sports Club.png',
+      'email': 'matrix_sports_club@smartpay.com'
     },
     {
       'text': 'Matrix Sports Club',
@@ -37,6 +38,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Matrix Sports Club.png',
+      'email': 'matrix_sports_club@smartpay.com'
     },
     {
       'text': 'Elshams Club',
@@ -44,6 +46,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Elshams Club.jpeg',
+      'email': 'elshams_club@smartpay.com'
     },
     {
       'text': 'Elshams Club',
@@ -51,6 +54,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Elshams Club.jpeg',
+      'email': 'elshams_club@smartpay.com'
     },
     {
       'text': 'Shooting Club',
@@ -58,6 +62,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Shooting Club.png',
+      'email': 'shooting_club@smartpay.com'
     },
     {
       'text': 'Shooting Club',
@@ -65,6 +70,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Shooting Club.png',
+      'email': 'shooting_club@smartpay.com'
     },
     {
       'text': 'Ismaily Club',
@@ -72,6 +78,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Ismaily Club.png',
+      'email': 'ismaily_club@smartpay.com'
     },
     {
       'text': 'Ismaily Club',
@@ -79,6 +86,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Ismaily Club.png',
+      'email': 'ismaily_club@smartpay.com'
     },
     {
       'text': 'Alahly Club',
@@ -86,6 +94,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Alahly Club.png',
+      'email': 'alahly_club@smartpay.com'
     },
     {
       'text': 'Alahly Club',
@@ -93,10 +102,14 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
       'TextFieldLabel': 'Membership ID',
       'TextFieldLabel2': 'Mobile Number',
       'imageUrl': 'assets/images/clubs/Alahly Club.png',
+      'email': 'alahly_club@smartpay.com'
     },
   ];
+
+  String selectedProviderEmail = '';
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = ClubsList[index]['email'];
   }
 
   @override
@@ -105,10 +118,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
     if (formdata!.validate()) {
       print("Valid");
 
-      print(subscribeNumber);
-      print(MobileNumber);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Payapi();
     } else {
       print("Not Valid");
     }
@@ -125,22 +135,35 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
   @override
   Future<void> Payapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode(
-          {"number": subscribeNumber.text, "number": MobileNumber.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": 300,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

@@ -26,43 +26,55 @@ class DonationsControllerImp extends DonationsController {
     {
       'text': 'Bayt Al Zakat',
       'imageUrl': 'assets/images/Bayt Al Zakat.jpeg',
+      'email': 'bayt_al_zakat@smartpay.com'
     },
     {
       'text': '57357',
       'imageUrl': 'assets/images/57357.png',
+      'email': '57357@smartpay.com'
     },
     {
       'text': 'Resala',
       'imageUrl': 'assets/images/Resala.png',
+      'email': 'resala@smartpay.com'
     },
     {
       'text': 'Abou elRich ElMonera',
       'imageUrl': 'assets/images/Abou elRich ElMonera.jpeg',
+      'email': 'abou_elrich@smartpay.com'
     },
     {
-      'text': 'El Nas Hospital ',
+      'text': 'El Nas Hospital',
       'imageUrl': 'assets/images/El Nas Hospital.png',
+      'email': 'el_nas@smartpay.com'
     },
     {
       'text': 'Egyption Food Bank',
       'imageUrl': 'assets/images/Egyption Food Bank.jpeg',
+      'email': 'egyption_food_bank@smartpay.com'
     },
     {
       'text': 'Misr Elkheir',
       'imageUrl': 'assets/images/Misr Elkheir.png',
+      'email': 'misr_elkheir@smartpay.com'
     },
     {
       'text': 'Baheya',
       'imageUrl': 'assets/images/Baheya.png',
+      'email': 'baheya@smartpay.com'
     },
     {
       'text': 'Mersal Foundation',
       'imageUrl': 'assets/images/Mersal Foundation.png',
+      'email': 'mersal_foundation@smartpay.com'
     },
   ];
 
+  String selectedProviderEmail = '';
+
   void changeIndex(int index) {
     current.value = index;
+    selectedProviderEmail = donationsList[index]['email'];
   }
 
   @override
@@ -72,8 +84,7 @@ class DonationsControllerImp extends DonationsController {
       print("Valid");
 
       print(amount);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      Donateapi();
     } else {
       print("Not Valid");
     }
@@ -82,6 +93,8 @@ class DonationsControllerImp extends DonationsController {
   @override
   void onInit() {
     amount = TextEditingController();
+    selectedProviderEmail =
+        donationsList[0]['email']; // Default to the first provider
 
     super.onInit();
   }
@@ -89,24 +102,38 @@ class DonationsControllerImp extends DonationsController {
   @override
   Future<void> Donateapi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({"amount": amount.text});
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var request = http.Request(
+          'POST',
+          Uri.parse(
+              'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
+      request.body = json.encode({
+        "smartEmail": selectedProviderEmail.toString(),
+        "amount": amount.text,
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
+        print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
       }
     } catch (e) {
-      Get.snackbar("Exeption", e.toString());
+      Get.snackbar("Exception", e.toString());
     }
   }
 

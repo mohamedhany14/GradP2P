@@ -1,37 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gradp2p/core/constants/colors.dart';
-import 'package:gradp2p/core/constants/routes.dart';
+import 'package:gradp2p/controller/nitification/getNotification_controller.dart';
+import 'package:intl/intl.dart';
+
+import 'package:gradp2p/view/screens/collect/collectSummary.dart'; // Import the new screen
 
 class CollectNoti extends StatelessWidget {
-  CollectNoti({super.key});
-  final List<Map<String, dynamic>> dataList = [
-    {
-      'requestType': 'collect money',
-      'adress': 'mohamedhany@smartpay.com',
-      'amount': '100',
-    },
-    {
-      'requestType': 'collect money',
-      'adress': 'mohamedhany@smartpay.com',
-      'amount': '100',
-    },
-    {
-      'requestType': 'collect money',
-      'adress': 'mohamedhany@smartpay.com',
-      'amount': '100',
-    },
-    {
-      'requestType': 'collect money',
-      'adress': 'mohamedhany@smartpay.com',
-      'amount': '100',
-    },
-  ];
   @override
   Widget build(BuildContext context) {
+    final GetnotificationControllerImp notificationController =
+        Get.put(GetnotificationControllerImp());
+
+    // Fetch notifications when the screen is loaded
+    notificationController.GetNoti();
+    // Reset notification count when the page is viewed
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notificationController.resetNotificationCount();
+    });
     return Scaffold(
       appBar: AppBar(
-        title: Text('Collect notifications'),
+        title: Text('Notifications'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
@@ -39,73 +27,65 @@ class CollectNoti extends StatelessWidget {
             size: 32,
             color: Colors.black54,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Get.back();
+          },
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: dataList.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: (){
-                      Get.toNamed(AppRoute.DonationsScreen);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                        padding: EdgeInsets.all(16),
-                        decoration: ShapeDecoration(
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color(0xFF5163BF)),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              dataList[index]['adress'],
-                              style: const TextStyle(color: Colors.black, fontSize: 18),
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Request type : ",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                ),
-                                Text(
-                                  dataList[index]['requestType'],
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const Text(
-                                  "Amount : ",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                ),
-                                Text(
-                                  dataList[index]['amount'],
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                ),
-                              ],
-                            ),
-                          ],
-                        )),
+      body: Obx(() {
+        if (notificationController.notifications.isEmpty) {
+          return Center(child: Text("No Notifications ")
+              //CircularProgressIndicator(),
+              );
+        } else {
+          return ListView.builder(
+            itemCount: notificationController.notifications.length,
+            itemBuilder: (context, index) {
+              final notification = notificationController.notifications[index];
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                child: Card(
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.notifications,
+                      color: Colors.blueAccent,
+                      size: 40,
+                    ),
+                    title: Text(
+                      notification['transaction']['from'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("To: ${notification['transaction']['to']}"),
+                        Text(
+                            "Amount: ${notification['transaction']['amount']}"),
+                        Text("State: ${notification['state']}"),
+                        Text(
+                            "Date: ${DateFormat.yMMMd().format(DateTime.parse(notification['createdAt']))}"),
+                      ],
+                    ),
+                    trailing: Icon(Icons.arrow_forward_ios),
+                    onTap: () {
+                      // Navigate to the receipt screen with the notification data
+                      Get.to(() => Collectsummary(notification: notification));
+                    },
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      }),
     );
   }
 }

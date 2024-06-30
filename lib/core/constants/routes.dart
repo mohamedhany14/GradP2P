@@ -34,4 +34,6 @@ class AppRoute {
 
   static const String GenerateQRScreen = "/GenerateQRScreen";
   static const String ReceiveMoneyScreen = "/ReceiveMoneyScreen";
+  static const String Collectsummary = "/Collectsummary";
+  static const String service = "/service";
 }

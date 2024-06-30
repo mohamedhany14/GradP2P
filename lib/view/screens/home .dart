@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:gradp2p/controller/nitification/getNotification_controller.dart';
 import 'package:gradp2p/core/constants/routes.dart';
 import 'package:gradp2p/view/screens/test.dart';
 import 'package:gradp2p/view/widget/drawer.dart';
 import 'package:gradp2p/view/screens/collect/collectNotifications.dart';
 import 'package:gradp2p/view/widget/homeContainers/homeCreditcardContainer.dart';
 import 'package:gradp2p/view/widget/homeContainers/lastTransactions.dart';
+import 'package:gradp2p/view/widget/homeContainers/transactionhistorycontainer.dart';
+import 'package:gradp2p/view/widget/homeContainers/userName.dart';
 
 class Home extends StatelessWidget {
   Home({super.key});
@@ -32,21 +35,53 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GetnotificationControllerImp notificationController =
+        Get.put(GetnotificationControllerImp());
+
+    // Fetch notifications when the screen is loaded
+    notificationController.GetNoti();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
         appBar: AppBar(
           actions: [
-            Builder(
-              builder: (context) {
-                return IconButton(
-                  icon: Icon(Icons.notifications_active),
-                  onPressed: () {
-                    Get.toNamed(AppRoute.CollectNoti);
-                  },
-                );
-              },
-            ),
+            Obx(() {
+              return Stack(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.notifications_active),
+                    onPressed: () {
+                      Get.to(() => CollectNoti());
+                      notificationController.newNotificationsCount == 0;
+                    },
+                  ),
+                  if (notificationController.newNotificationsCount.value > 0)
+                    Positioned(
+                      right: 11,
+                      top: 11,
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 14,
+                          minHeight: 14,
+                        ),
+                        child: Text(
+                          '${notificationController.newNotificationsCount.value}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                ],
+              );
+            }),
           ],
         ),
         drawer: navDrawer(),
@@ -68,16 +103,7 @@ class Home extends StatelessWidget {
                     letterSpacing: 0.05,
                   ),
                 ),
-                const Text(
-                  'Mohamed hany',
-                  style: TextStyle(
-                    color: Color(0xFF5163BF),
-                    fontSize: 28,
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.08,
-                  ),
-                ),
+                Username(),
                 const SizedBox(
                   height: 10,
                 ),
@@ -139,7 +165,9 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoute.service);
+                      },
                       child: const Text(
                         'More >',
                         textAlign: TextAlign.center,
@@ -183,9 +211,6 @@ class Home extends StatelessWidget {
                           } else if (index == 5) {
                             Get.toNamed(AppRoute.DonationsScreen);
                           }
-                          //   } else {
-                          //     Navigator.push(context, MaterialPageRoute(builder: (context) => Page2()));
-                          //   }
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -250,7 +275,9 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoute.transaction);
+                      },
                       child: const Text(
                         'See All  >',
                         style: TextStyle(
@@ -265,14 +292,8 @@ class Home extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: height * 0.9 / 3,
-                  child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      //scrollDirection: Axis.horizontal,
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return const transactionContainer();
-                      }),
+                  // height: height * 0.9 / 3,
+                  child: LastTransactionsWidget(),
                 ),
                 SizedBox(
                   height: height / 9,

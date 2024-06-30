@@ -76,7 +76,7 @@ class _CryptoMarketState extends State<CryptoMarket> {
                           ),
                         )
                       : ListView.builder(
-                          itemCount: coinMarket!.length,
+                          itemCount:10,
                           itemBuilder: (context, index) {
                             return item3(
                               item: coinMarket![index],

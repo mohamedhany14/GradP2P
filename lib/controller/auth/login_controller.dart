@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gradp2p/core/constants/routes.dart';
@@ -10,7 +9,6 @@ abstract class LoginController extends GetxController {
   void Login();
   void goToSignup();
   getCode();
-
   Future<void> logiWithPhone();
   void gotoforgetPass();
 }
@@ -35,7 +33,6 @@ class logincontrollerImp extends LoginController {
       print("Valid");
       print(phoneNumber.text);
       print(password.text);
-
       logiWithPhone();
     } else {
       print("Not Valid");
@@ -58,8 +55,10 @@ class logincontrollerImp extends LoginController {
   Future<void> logiWithPhone() async {
     try {
       var headers = {'Content-Type': 'application/json'};
-      var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
+      var request = http.Request(
+        'POST',
+        Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'),
+      );
       request.body =
           json.encode({"phone": phoneNumber.text, "password": password.text});
       request.headers.addAll(headers);
@@ -69,14 +68,21 @@ class logincontrollerImp extends LoginController {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        final token =
-            jsonResponse['token']; // Extract the token from the response
+        final token = jsonResponse['token'];
+        final data = jsonResponse['data'];
 
-        // Save token in SharedPreferences
+        // Save token and user data in SharedPreferences
         final SharedPreferences prefs = await _prefs;
         await prefs.setString('token', token);
 
-        print("Token saved: $token");
+        await prefs.setString('smartEmail', data['smartEmail']);
+        await prefs.setString('name', data['name']);
+
+        await prefs.setString('phone', data['phone']);
+
+        await prefs.setString('birthDate', data['birthDate']);
+
+        print("Token and user data saved");
         getCode();
         Get.offAllNamed(AppRoute.otp);
       } else {
@@ -112,12 +118,9 @@ class logincontrollerImp extends LoginController {
 
       if (response.statusCode == 200) {
         print("otp");
-
         print(await response.stream.bytesToString());
-        // Get.toNamed(AppRoute.Bottomnavbar);
       } else {
         print("otp");
-
         print(response.reasonPhrase);
         Get.snackbar("Error", response.reasonPhrase!);
       }
@@ -139,14 +142,6 @@ class logincontrollerImp extends LoginController {
     Get.toNamed(AppRoute.forgetPassPhone);
   }
 }
-
-
-
-
-
-
-
-
 
 
 
