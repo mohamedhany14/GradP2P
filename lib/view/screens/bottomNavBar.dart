@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:gradp2p/controller/bottomNavBar_controller.dart';
 import 'package:gradp2p/core/constants/colors.dart';
 import 'package:gradp2p/view/screens/ManageCards/manageCards.dart';
+import 'package:gradp2p/view/screens/dashboard.dart';
 import 'package:gradp2p/view/screens/home%20.dart';
 
 class Bottomnavbar extends StatelessWidget {
@@ -10,7 +11,7 @@ class Bottomnavbar extends StatelessWidget {
 
   final List<Widget> pages = [
     Home(),
-    Home(),
+    Dashboard(),
     manageCards(),
   ];
 

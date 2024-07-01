@@ -36,4 +36,5 @@ class AppRoute {
   static const String ReceiveMoneyScreen = "/ReceiveMoneyScreen";
   static const String Collectsummary = "/Collectsummary";
   static const String service = "/service";
+   static const String Dashboard = "/Dashboard";
 }
