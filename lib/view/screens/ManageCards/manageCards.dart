@@ -2,12 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:gradp2p/core/constants/routes.dart';
 import 'package:gradp2p/view/screens/ManageCards/addCard.dart';
-import 'package:gradp2p/view/screens/ManageCards/changePin/interPin.dart';
-import 'package:gradp2p/view/screens/ManageCards/deleteCard.dart';
-import 'package:gradp2p/view/screens/ManageCards/forgotPin.dart';
 import 'package:gradp2p/view/screens/test.dart';
+import 'package:gradp2p/view/widget/SetDefoultCard.dart';
 import 'package:gradp2p/view/widget/homeContainers/homeCreditcardContainer.dart';
 
 class manageCards extends StatelessWidget {
@@ -17,12 +14,6 @@ class manageCards extends StatelessWidget {
     {'text': 'Add Card ', 'imageUrl': 'assets/images/Icon Plus.png'},
     {'text': 'Delete Account', 'imageUrl': 'assets/images/Archive.png'},
     {'text': ' Check Balance', 'imageUrl': 'assets/images/Bank Card.png'},
-    {'text': 'Change Password', 'imageUrl': 'assets/images/Download.png'},
-    {'text': ' Forget Password', 'imageUrl': 'assets/images/Pen.png'},
-    {
-      'text': 'Transactions ',
-      'imageUrl': 'assets/images/Horizontal_switch_light.png'
-    },
   ];
 
   @override
@@ -70,31 +61,101 @@ class manageCards extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context) => addCard()));
                         } else if (index == 1) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const deleteCard()));
+                          Get.dialog(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40),
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Material(
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(height: 10),
+                                            const Text(
+                                              "Alert",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            const SizedBox(height: 15),
+                                            const Text(
+                                              "are you sure to delete the defoult card",
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            const SizedBox(height: 20),
+                                            //Buttons
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: ElevatedButton(
+                                                    child: const Text(
+                                                      'cancel',
+                                                    ),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      foregroundColor:
+                                                          const Color(
+                                                              0xFFFFFFFF),
+                                                      backgroundColor:
+                                                          Colors.blueAccent,
+                                                      minimumSize:
+                                                          const Size(0, 45),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      Get.back();
+                                                    },
+                                                  ),
+                                                ),
+                                                const SizedBox(width: 10),
+                                                Expanded(
+                                                  child: ElevatedButton(
+                                                    child: const Text(
+                                                      'confirm',
+                                                    ),
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      foregroundColor:
+                                                          Colors.white,
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      minimumSize:
+                                                          const Size(0, 45),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {},
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         } else if (index == 2) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Test()));
-                        } else if (index == 3) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const interPin()));
-                        } else if (index == 4) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const forgotPin()));
-                        } else if (index == 5) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Test()));
-                        } else {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -168,7 +229,7 @@ class manageCards extends StatelessWidget {
                   scrollDirection: Axis.vertical,
                   itemCount: 4,
                   itemBuilder: (context, index) {
-                    return const CreditCardContainer();
+                    return const SetdefoultCard();
                   }),
             ),
           ],
