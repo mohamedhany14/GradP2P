@@ -13,9 +13,13 @@ import 'package:gradp2p/view/screens/BillPayment/TraficFines.dart';
 import 'package:gradp2p/view/screens/BillPayment/WaterBills.dart';
 import 'package:gradp2p/view/screens/BillPayment/clubSubsribtion.dart';
 import 'package:gradp2p/view/screens/BillPayment/finantialBills.dart';
+import 'package:gradp2p/view/screens/CRYPTO%20copy/BuyCrypto.dart';
 import 'package:gradp2p/view/screens/CRYPTO%20copy/CryptoHome.dart';
+import 'package:gradp2p/view/screens/CRYPTO%20copy/SellCrypto.dart';
 import 'package:gradp2p/view/screens/Donations.dart';
+import 'package:gradp2p/view/screens/ManageCards/Recharge.dart';
 import 'package:gradp2p/view/screens/ManageCards/manageCards.dart';
+import 'package:gradp2p/view/screens/ManageCards/withdrow.dart';
 import 'package:gradp2p/view/screens/QRScreens/ConfirmTransactionScreen.dart';
 import 'package:gradp2p/view/screens/QRScreens/generateCodeQR.dart';
 import 'package:gradp2p/view/screens/QRScreens/generateQRcollect.dart';
@@ -91,4 +95,8 @@ List<GetPage<dynamic>>? routes = [
           )),
   GetPage(name: AppRoute.service, page: () => service()),
   GetPage(name: AppRoute.Dashboard, page: () => Dashboard()),
+  GetPage(name: AppRoute.Buycrypto, page: () => Buycrypto()),
+  GetPage(name: AppRoute.Sellcrypto, page: () => Sellcrypto()),
+  GetPage(name: AppRoute.Withdrow, page: () => Withdrow()),
+  GetPage(name: AppRoute.Recharge, page: () => Recharge()),
 ];

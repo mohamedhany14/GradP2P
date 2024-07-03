@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gradp2p/core/constants/colors.dart';
 import 'package:gradp2p/data/model/coinModel.dart';
-import 'package:gradp2p/view/screens/CRYPTO%20copy/search.dart';
 import 'package:gradp2p/view/widget/CryptoComponents/item3.dart';
 
 import 'package:http/http.dart' as http;
-
 
 class CryptoMarket extends StatefulWidget {
   const CryptoMarket({super.key});
@@ -27,25 +26,18 @@ class _CryptoMarketState extends State<CryptoMarket> {
     double myWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Market'),
+        title: Text('Crypto Market'),
         centerTitle: true, // Center the title horizontally
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             size: 32,
             color: Colors.black54,
           ), // Leading arrow icon
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            Get.back();
+          },
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(context: context, delegate: CustomSearch());
-            },
-            icon: Icon(Icons.search),
-            iconSize: 30,
-          )
-        ],
       ),
       body: Column(
         children: [
@@ -76,9 +68,9 @@ class _CryptoMarketState extends State<CryptoMarket> {
                           ),
                         )
                       : ListView.builder(
-                          itemCount:10,
+                          itemCount: 10,
                           itemBuilder: (context, index) {
-                            return item3(
+                            return Item3(
                               item: coinMarket![index],
                             );
                           },
@@ -120,37 +112,7 @@ class _CryptoMarketState extends State<CryptoMarket> {
   }
 }
 
-class CustomSearch extends SearchDelegate {
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-          onPressed: () {
-            query = '';
-          },
-          icon: Icon(Icons.close))
-    ];
-  }
 
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          close(context, null);
-        },
-        icon: Icon(Icons.arrow_back));
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Text("");
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    return searchList();
-  }
-}
 
 class searchField extends StatelessWidget {
   const searchField({super.key});

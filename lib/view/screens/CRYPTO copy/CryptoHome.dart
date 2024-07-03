@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:gradp2p/data/model/coinModel.dart';
 import 'package:gradp2p/view/screens/CRYPTO%20copy/CryptoMarket.dart';
@@ -21,12 +22,6 @@ class _CryptoHomeState extends State<CryptoHome> {
     super.initState();
   }
 
-  final List<Map<String, dynamic>> dataList = [
-    {'text': 'Sell ', 'imageUrl': 'assets/images/crypto buy&sell.png'},
-    {'text': ' Check Balance', 'imageUrl': 'assets/images/Bank Card.png'},
-    {'text': ' Market', 'imageUrl': 'assets/images/crypto Market.png'},
-  ];
-
   @override
   Widget build(BuildContext context) {
     double myHeight = MediaQuery.of(context).size.height;
@@ -41,7 +36,9 @@ class _CryptoHomeState extends State<CryptoHome> {
               size: 32,
               color: Colors.black54,
             ),
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Get.back();
+            },
           ),
         ),
         drawer: navDrawer(),
@@ -138,7 +135,7 @@ class _CryptoHomeState extends State<CryptoHome> {
                               // shrinkWrap: true,
                               // physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return item3(
+                                return Item3(
                                   item: coinMarket![index],
                                 );
                               },

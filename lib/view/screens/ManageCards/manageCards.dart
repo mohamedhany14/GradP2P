@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:gradp2p/controller/ManageCards/GetCards_controller.dart';
+import 'package:gradp2p/controller/ManageCards/deleteCard_controller.dart';
+import 'package:gradp2p/core/constants/routes.dart';
 import 'package:gradp2p/view/screens/ManageCards/addCard.dart';
 import 'package:gradp2p/view/screens/test.dart';
-import 'package:gradp2p/view/widget/SetDefoultCard.dart';
+import 'package:gradp2p/view/widget/cards/SetDefoultCard.dart';
+import 'package:gradp2p/view/widget/auth/custombuttonauth.dart';
+import 'package:gradp2p/view/widget/cards/defoultCard.dart';
 import 'package:gradp2p/view/widget/homeContainers/homeCreditcardContainer.dart';
 
 class manageCards extends StatelessWidget {
@@ -13,16 +16,25 @@ class manageCards extends StatelessWidget {
   final List<Map<String, dynamic>> dataList = [
     {'text': 'Add Card ', 'imageUrl': 'assets/images/Icon Plus.png'},
     {'text': 'Delete Account', 'imageUrl': 'assets/images/Archive.png'},
-    {'text': ' Check Balance', 'imageUrl': 'assets/images/Bank Card.png'},
+    {'text': 'Check Balance', 'imageUrl': 'assets/images/Bank Card.png'},
   ];
 
   @override
   Widget build(BuildContext context) {
+    final GetcardsControllerImp cardsController =
+        Get.put(GetcardsControllerImp());
+    final DeletecardControllerImp deletecardController =
+        Get.put(DeletecardControllerImp());
+
+    // Fetch cards when the screen is loaded
+    cardsController.GetCards();
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mange Cards'),
+        title: Text('Manage Cards'),
         centerTitle: true, // Center the title horizontally
         leading: IconButton(
           icon: const Icon(
@@ -39,10 +51,8 @@ class manageCards extends StatelessWidget {
         padding: const EdgeInsets.all(18.0),
         child: Column(
           children: [
-            CreditCardContainer(),
-            const SizedBox(
-              height: 40,
-            ),
+            Defoultcard(),
+            const SizedBox(height: 40),
             Expanded(
               child: Container(
                 child: GridView.builder(
@@ -71,9 +81,8 @@ class manageCards extends StatelessWidget {
                                   child: Container(
                                     decoration: const BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(20)),
                                     ),
                                     child: Padding(
                                       padding: const EdgeInsets.all(20.0),
@@ -87,18 +96,16 @@ class manageCards extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 15),
                                             const Text(
-                                              "are you sure to delete the defoult card",
+                                              "Are you sure to delete the default card?",
                                               textAlign: TextAlign.center,
                                             ),
                                             const SizedBox(height: 20),
-                                            //Buttons
+                                            // Buttons
                                             Row(
                                               children: [
                                                 Expanded(
                                                   child: ElevatedButton(
-                                                    child: const Text(
-                                                      'cancel',
-                                                    ),
+                                                    child: const Text('Cancel'),
                                                     style: ElevatedButton
                                                         .styleFrom(
                                                       foregroundColor:
@@ -123,9 +130,8 @@ class manageCards extends StatelessWidget {
                                                 const SizedBox(width: 10),
                                                 Expanded(
                                                   child: ElevatedButton(
-                                                    child: const Text(
-                                                      'confirm',
-                                                    ),
+                                                    child:
+                                                        const Text('Confirm'),
                                                     style: ElevatedButton
                                                         .styleFrom(
                                                       foregroundColor:
@@ -141,7 +147,11 @@ class manageCards extends StatelessWidget {
                                                                 .circular(8),
                                                       ),
                                                     ),
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      deletecardController
+                                                          .DeleteCard();
+                                                      Get.back();
+                                                    },
                                                   ),
                                                 ),
                                               ],
@@ -186,9 +196,7 @@ class manageCards extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Image.asset(
-                                dataList[index]['imageUrl'],
-                              ),
+                              Image.asset(dataList[index]['imageUrl']),
                               Text(
                                 dataList[index]['text'],
                                 textAlign: TextAlign.center,
@@ -208,29 +216,44 @@ class manageCards extends StatelessWidget {
                 ),
               ),
             ),
-            const Row(
+            Padding(
+              padding: EdgeInsets.only(bottom: 38),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Other Accounts',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(0xFF878787),
-                      fontSize: 16,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.05,
-                    ),
+                  Custombuttonauth(
+                      buttonName: "Recharge",
+                      onPressed: () {
+                        Get.toNamed(AppRoute.Recharge);
+                      }),
+                  Custombuttonauth(
+                      buttonName: "Withdraw",
+                      onPressed: () {
+                        Get.toNamed(AppRoute.Withdrow);
+                      }),
+                ],
+              ),
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Other Accounts',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF878787),
+                    fontSize: 16,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.05,
                   ),
-                  SizedBox(),
-                ]),
-            Expanded(
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return const SetdefoultCard();
-                  }),
+                ),
+                SizedBox(),
+              ],
+            ),
+            SizedBox(
+              height: height / 4,
+              child: SetdefoultCard(),
             ),
           ],
         ),

@@ -38,8 +38,9 @@ class AddcardControllerImp extends AddcardController {
     var formdata = formstate.currentState;
     if (formdata!.validate()) {
       print("Valid");
-      Get.offAllNamed(AppRoute.manageCards);
-      //  addCardApi();
+      print(fullName.text);
+      print(cardNumber.text);
+      addCardApi();
     } else {
       print("Not Valid");
     }
@@ -59,37 +60,30 @@ class AddcardControllerImp extends AddcardController {
   @override
   Future<void> addCardApi() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
       var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/signup'));
-      request.body = json.encode({
-        "name": fullName.text,
-        "cardNumber": cardNumber.text,
-        "ccv": ccv.text,
-        "date": date.text,
-        "cardPin": cardPin.text,
-        "bank": bankSelectionController.selectedBank.value
-      });
+          Uri.parse('https://smart-pay.onrender.com/api/v0/users/cards'));
+      request.body = json.encode({"name": fullName.text, "number": cardNumber.text});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-        final token =
-            jsonResponse['token']; // Extract the token from the response
-
-        // Save token in SharedPreferences
-        final SharedPreferences prefs = await _prefs;
-        await prefs.setString('token', token);
-
-        print("Token saved: $token");
-        //getCode();
+        print(await response.stream.bytesToString());
         Get.offAllNamed(AppRoute.manageCards);
+        Get.snackbar("success", "Card Added");
       } else {
         print(response.reasonPhrase);
-        Get.snackbar("Error", response.reasonPhrase!);
       }
     } catch (e) {
       Get.snackbar("Exception", e.toString());

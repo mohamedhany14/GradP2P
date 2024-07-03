@@ -98,14 +98,14 @@ class addCard extends StatelessWidget {
                     ),
                     TextFormField(
                       validator: (val) {
-                        return validInput(val!, 19, 19, "card number");
+                        return validInput(val!, 16, 16, "card number");
                       },
                       controller: controller.cardNumber,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(16),
-                        CardNumberInputFormatter(),
+                       // CardNumberInputFormatter(),
                       ],
                       decoration: const InputDecoration(
                         labelText: "Card number",

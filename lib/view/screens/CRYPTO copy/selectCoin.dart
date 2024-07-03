@@ -1,16 +1,22 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:gradp2p/core/constants/colors.dart';
+import 'package:gradp2p/core/constants/routes.dart';
 import 'package:gradp2p/data/model/chartModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 class SelectCoin extends StatefulWidget {
-  var selectItem;
+  final selectItem;
+  final double currentPrice;
+  final double marketCapChange;
 
-  SelectCoin({this.selectItem});
+  SelectCoin({
+    required this.selectItem,
+    required this.currentPrice,
+    required this.marketCapChange,
+  });
 
   @override
   State<SelectCoin> createState() => _SelectCoinState();
@@ -18,6 +24,20 @@ class SelectCoin extends StatefulWidget {
 
 class _SelectCoinState extends State<SelectCoin> {
   late TrackballBehavior trackballBehavior;
+  static const Map<String, Map<String, String>> cryptoNames = {
+    'bitcoin': {'name': 'bitcoin', 'additionalName': 'BTC'},
+    'ethereum': {'name': 'ethereum', 'additionalName': 'ETH'},
+    'tether': {'name': 'tether', 'additionalName': 'USDT'},
+    'binancecoin': {'name': 'binancecoin', 'additionalName': 'BNB'},
+    'solana': {'name': 'solana', 'additionalName': 'SOL'},
+    'staked-ether': {'name': 'staked_ether', 'additionalName': 'stETH'},
+    'usd-coin': {'name': 'usd_coin', 'additionalName': 'USDC'},
+    'ripple': {'name': 'ripple', 'additionalName': 'XRP'},
+
+    // 'the-open-network': {'name': 'The Open Network', 'additionalName': 'TON'},
+    // 'dogecoin': {'name': 'Dogecoin', 'additionalName': 'DOGE'},
+    // Add more constants for each cryptocurrency
+  };
 
   @override
   void initState() {
@@ -31,17 +51,19 @@ class _SelectCoinState extends State<SelectCoin> {
   Widget build(BuildContext context) {
     double myHeight = MediaQuery.of(context).size.height;
     double myWidth = MediaQuery.of(context).size.width;
+    String name =
+        cryptoNames[widget.selectItem.id]?['name'] ?? widget.selectItem.id;
+    String additionalName =
+        cryptoNames[widget.selectItem.id]?['additionalName'] ?? '';
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        // title: Text('Market'),
-        // centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
             size: 32,
             color: Colors.black54,
-          ), // Leading arrow icon
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -64,40 +86,28 @@ class _SelectCoinState extends State<SelectCoin> {
                       SizedBox(
                         width: myWidth * 0.03,
                       ),
-                      Text(
-                        widget.selectItem.id,
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            additionalName,
+                            style: TextStyle(fontSize: 16, color: Colors.grey),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '\$' + widget.selectItem.currentPrice.toString(),
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.black),
-                      ),
-                      SizedBox(
-                        height: myHeight * 0.01,
-                      ),
-                      Text(
-                        widget.selectItem.marketCapChangePercentage24H
-                                .toString() +
-                            '%',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.normal,
-                            color: widget.selectItem
-                                        .marketCapChangePercentage24H >=
-                                    0
-                                ? Colors.green
-                                : Colors.red),
-                      ),
-                    ],
+                  Text(
+                    '\$' + widget.currentPrice.toString(),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black),
                   ),
                 ],
               ),
@@ -203,80 +213,6 @@ class _SelectCoinState extends State<SelectCoin> {
                                 ),
                     ),
                   ),
-
-                  /**   Padding(
-                    padding: EdgeInsets.all(18),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              'Low',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey),
-                            ),
-                            SizedBox(
-                              height: myHeight * 0.01,
-                            ),
-                            Text(
-                              '\$' + widget.selectItem.low24H.toString(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              'High',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey),
-                            ),
-                            SizedBox(
-                              height: myHeight * 0.01,
-                            ),
-                            Text(
-                              '\$' + widget.selectItem.high24H.toString(),
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              'Vol',
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey),
-                            ),
-                            SizedBox(
-                              height: myHeight * 0.01,
-                            ),
-                            Text(
-                              '\$' +
-                                  widget.selectItem.totalVolume.toString() +
-                                  'M',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ), */
                   Divider(),
                 ],
               ),
@@ -284,7 +220,20 @@ class _SelectCoinState extends State<SelectCoin> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(
+                        AppRoute.Buycrypto,
+                        arguments: {
+                          'selectItemID': widget.selectItem.id,
+                          'name': name, // Pass the name
+                          'additionalName':
+                              additionalName, // Pass the additional name
+                          'price': widget.currentPrice,
+                          'image':
+                              widget.selectItem.image, // Pass the image URL
+                        },
+                      );
+                    },
                     child: Text("Buy",
                         style: TextStyle(
                           color: Colors.white,
@@ -296,11 +245,23 @@ class _SelectCoinState extends State<SelectCoin> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         backgroundColor: Color(0xff5063bf),
-                        //elevation: 10,
                         minimumSize: Size(140, 50)),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(
+                        AppRoute.Sellcrypto,
+                        arguments: {
+                          'selectItemID': widget.selectItem.id,
+                          'name': name, // Pass the name
+                          'additionalName':
+                              additionalName, // Pass the additional name
+                          'price': widget.currentPrice,
+                          'image':
+                              widget.selectItem.image, // Pass the image URL
+                        },
+                      );
+                    },
                     child: Text("Sell",
                         style: TextStyle(
                           color: Colors.white,
@@ -312,7 +273,6 @@ class _SelectCoinState extends State<SelectCoin> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         backgroundColor: Color(0xff5063bf),
-                        //elevation: 10,
                         minimumSize: Size(140, 50)),
                   ),
                 ],
