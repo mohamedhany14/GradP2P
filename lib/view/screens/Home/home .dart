@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:gradp2p/controller/nitification/getNotification_controller.dart';
 import 'package:gradp2p/core/constants/routes.dart';
-import 'package:gradp2p/view/screens/test.dart';
 import 'package:gradp2p/view/widget/drawer.dart';
 import 'package:gradp2p/view/screens/collect/collectNotifications.dart';
 import 'package:gradp2p/view/widget/homeContainers/homeCreditcardContainer.dart';
-import 'package:gradp2p/view/widget/homeContainers/lastTransactions.dart';
 import 'package:gradp2p/view/widget/homeContainers/transactionhistorycontainer.dart';
 import 'package:gradp2p/view/widget/homeContainers/userName.dart';
 
@@ -94,7 +91,7 @@ class Home extends StatelessWidget {
                   height: 5,
                 ),
                 const Text(
-                  'Good Afternoon',
+                  'Welcome Back',
                   style: TextStyle(
                     color: Color(0xFF878787),
                     fontSize: 18,
@@ -145,7 +142,7 @@ class Home extends StatelessWidget {
                 SizedBox(
                   height: 80,
                   width: width,
-                  child: const CreditCardContainer(),
+                  child: const cardwallet(),
                 ),
                 const SizedBox(
                   height: 10,

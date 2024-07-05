@@ -3,12 +3,9 @@ import 'package:get/get.dart';
 import 'package:gradp2p/controller/ManageCards/GetCards_controller.dart';
 import 'package:gradp2p/controller/ManageCards/deleteCard_controller.dart';
 import 'package:gradp2p/core/constants/routes.dart';
-import 'package:gradp2p/view/screens/ManageCards/addCard.dart';
-import 'package:gradp2p/view/screens/test.dart';
 import 'package:gradp2p/view/widget/cards/SetDefoultCard.dart';
 import 'package:gradp2p/view/widget/auth/custombuttonauth.dart';
 import 'package:gradp2p/view/widget/cards/defoultCard.dart';
-import 'package:gradp2p/view/widget/homeContainers/homeCreditcardContainer.dart';
 
 class manageCards extends StatelessWidget {
   manageCards({super.key});
@@ -23,29 +20,18 @@ class manageCards extends StatelessWidget {
   Widget build(BuildContext context) {
     final GetcardsControllerImp cardsController =
         Get.put(GetcardsControllerImp());
-    final DeletecardControllerImp deletecardController =
-        Get.put(DeletecardControllerImp());
+    final DeletecardController deletecardController =
+        Get.put(DeletecardController());
 
     // Fetch cards when the screen is loaded
     cardsController.GetCards();
 
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Manage Cards'),
         centerTitle: true, // Center the title horizontally
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            size: 32,
-            color: Colors.black54,
-          ), // Leading arrow icon
-          onPressed: () {
-            Get.back();
-          },
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
@@ -66,10 +52,7 @@ class manageCards extends StatelessWidget {
                       onTap: () {
                         if (index == 0) {
                           // Get.toNamed(AppRoute.manageCards);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => addCard()));
+                          Get.toNamed(AppRoute.addCard);
                         } else if (index == 1) {
                           Get.dialog(
                             Column(
@@ -147,9 +130,12 @@ class manageCards extends StatelessWidget {
                                                                 .circular(8),
                                                       ),
                                                     ),
-                                                    onPressed: () {
-                                                      deletecardController
+                                                    onPressed: () async {
+                                                      await deletecardController
                                                           .DeleteCard();
+                                                      Get.back(); // Close the dialog before updating the cards
+                                                      await cardsController
+                                                          .GetCards();
                                                       Get.back();
                                                     },
                                                   ),
@@ -166,10 +152,7 @@ class manageCards extends StatelessWidget {
                             ),
                           );
                         } else if (index == 2) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Test()));
+                          Get.toNamed(AppRoute.checkdefoultBalance);
                         }
                       },
                       child: Padding(

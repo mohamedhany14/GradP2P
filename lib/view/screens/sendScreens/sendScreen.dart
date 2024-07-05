@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:gradp2p/controller/send/send_controller.dart';
-import 'package:gradp2p/view/screens/QRScreens/scanQr.dart';
 import 'package:gradp2p/view/screens/sendScreens/card.dart';
 import 'package:gradp2p/view/screens/sendScreens/mobileNumber.dart';
 import 'package:gradp2p/view/screens/sendScreens/navigatetoScanQr.dart';

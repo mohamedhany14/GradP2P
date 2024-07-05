@@ -1,4 +1,6 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:gradp2p/view/screens/Home/Wallet.dart';
+import 'package:gradp2p/view/screens/ManageCards/defoultCardBalance.dart';
 import 'package:gradp2p/core/constants/routes.dart';
 import 'package:gradp2p/core/middleware/myMiddleWare.dart';
 import 'package:gradp2p/view/screens/BillPayment/BanksBills.dart';
@@ -18,6 +20,7 @@ import 'package:gradp2p/view/screens/CRYPTO%20copy/CryptoHome.dart';
 import 'package:gradp2p/view/screens/CRYPTO%20copy/SellCrypto.dart';
 import 'package:gradp2p/view/screens/Donations.dart';
 import 'package:gradp2p/view/screens/ManageCards/Recharge.dart';
+import 'package:gradp2p/view/screens/ManageCards/addCard.dart';
 import 'package:gradp2p/view/screens/ManageCards/manageCards.dart';
 import 'package:gradp2p/view/screens/ManageCards/withdrow.dart';
 import 'package:gradp2p/view/screens/QRScreens/ConfirmTransactionScreen.dart';
@@ -33,6 +36,7 @@ import 'package:gradp2p/view/screens/auth/otp.dart';
 import 'package:gradp2p/view/screens/auth/phoneVarification.dart';
 import 'package:gradp2p/view/screens/auth/signup.dart';
 import 'package:gradp2p/view/screens/bottomNavBar.dart';
+import 'package:gradp2p/view/screens/chatboot/ChatBootsplash.dart';
 import 'package:gradp2p/view/screens/collect/collectSummary.dart';
 import 'package:gradp2p/view/screens/Home/dashboard.dart';
 import 'package:gradp2p/view/screens/Home/home%20.dart';
@@ -99,4 +103,10 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.Sellcrypto, page: () => Sellcrypto()),
   GetPage(name: AppRoute.Withdrow, page: () => Withdrow()),
   GetPage(name: AppRoute.Recharge, page: () => Recharge()),
+  GetPage(name: AppRoute.checkdefoultBalance, page: () => checkdefoultBalance()),
+  GetPage(name: AppRoute.addCard, page: () => addCard()),
+    GetPage(name: AppRoute.Wallet, page: () => Wallet()),
+        GetPage(name: AppRoute.SplashBot, page: () => SplashBot()),
 ];
+
+

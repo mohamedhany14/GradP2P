@@ -78,6 +78,5 @@ class Cryptotransactioncontainer extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

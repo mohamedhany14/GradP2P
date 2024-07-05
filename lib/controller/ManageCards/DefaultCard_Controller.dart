@@ -7,6 +7,12 @@ class DefaultCardController extends GetxController {
   var id = ''.obs;
   var balance = 0.0.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    loadDefaultCard();
+  }
+
   Future<void> loadDefaultCard() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     name.value = prefs.getString('defaultCardName') ?? '';

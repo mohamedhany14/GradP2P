@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:gradp2p/data/model/coinModel.dart';
 import 'package:gradp2p/view/screens/CRYPTO%20copy/CryptoMarket.dart';
 import 'package:gradp2p/view/widget/CryptoComponents/item3.dart';
-import 'package:gradp2p/view/widget/drawer.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -30,18 +28,9 @@ class _CryptoHomeState extends State<CryptoHome> {
         appBar: AppBar(
           // title: Text('Money Transfer'),
           // centerTitle: true,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              size: 32,
-              color: Colors.black54,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
+          
         ),
-        drawer: navDrawer(),
+   
         body: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -50,7 +39,7 @@ class _CryptoHomeState extends State<CryptoHome> {
                 height: 5,
               ),
               const Text(
-                'Good Afternoon',
+                'Welcome',
                 style: TextStyle(
                   color: Color(0xFF878787),
                   fontSize: 18,
@@ -131,7 +120,7 @@ class _CryptoHomeState extends State<CryptoHome> {
                               ),
                             )
                           : ListView.builder(
-                              itemCount: 10,
+                              itemCount: 8,
                               // shrinkWrap: true,
                               // physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {

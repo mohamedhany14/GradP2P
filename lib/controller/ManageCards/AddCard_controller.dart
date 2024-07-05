@@ -1,15 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gradp2p/controller/ManageCards/GetCards_controller.dart';
 import 'package:gradp2p/controller/ManageCards/SelectBank_controller.dart';
-import 'package:gradp2p/core/constants/routes.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AddcardController extends GetxController {
   void addNCard();
-
   Future<void> addCardApi();
 }
 
@@ -26,8 +24,9 @@ class AddcardControllerImp extends AddcardController {
   bool isshowpassword2 = true;
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final BankSelectionController bankSelectionController =
-      Get.find(); // Find the BankSelectionController
+  final BankSelectionController bankSelectionController = Get.find(); // Find the BankSelectionController
+  final GetcardsControllerImp cardsController = Get.find(); // Find the GetcardsControllerImp
+
   void showhidePassword2() {
     isshowpassword2 = !isshowpassword2;
     update();
@@ -53,7 +52,6 @@ class AddcardControllerImp extends AddcardController {
     ccv = TextEditingController();
     date = TextEditingController();
     cardPin = TextEditingController();
-
     super.onInit();
   }
 
@@ -73,15 +71,18 @@ class AddcardControllerImp extends AddcardController {
       };
       var request = http.Request('POST',
           Uri.parse('https://smart-pay.onrender.com/api/v0/users/cards'));
-      request.body = json.encode({"name": fullName.text, "number": cardNumber.text});
+      request.body =
+          json.encode({"name": fullName.text, "number": cardNumber.text});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-        Get.offAllNamed(AppRoute.manageCards);
-        Get.snackbar("success", "Card Added");
+
+        Get.back();
+        Get.snackbar("Success", "Card Added");
+        cardsController.GetCards(); // Update cards list after adding a new card
       } else {
         print(response.reasonPhrase);
       }
@@ -97,7 +98,6 @@ class AddcardControllerImp extends AddcardController {
     ccv.dispose();
     date.dispose();
     cardPin.dispose();
-
     super.dispose();
   }
 }

@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pie_chart/pie_chart.dart' as pie;
 
 abstract class TransactionhistoryController extends GetxController {
   Future<void> Gethistory();
@@ -14,6 +12,7 @@ abstract class TransactionhistoryController extends GetxController {
   void applyDateFilter(DateTime startDate, DateTime endDate);
   List<FlSpot> getIncomeData();
   List<FlSpot> getOutcomeData();
+  getTransactionData();
 }
 
 class TransactionhistoryControllerImp extends TransactionhistoryController {
@@ -142,24 +141,33 @@ class TransactionhistoryControllerImp extends TransactionhistoryController {
 
   @override
   List<FlSpot> getIncomeData() {
-    return transaction.map((transaction) {
+    return transaction
+        .where((transaction) =>
+            transaction['to'].toLowerCase() == userEmail?.toLowerCase())
+        .map((transaction) {
       DateTime date = DateTime.parse(transaction['createdAt']);
-      double amount =
-          transaction['to'].toLowerCase() == userEmail?.toLowerCase()
-              ? (transaction['amount'] as num).toDouble()
-              : 0.0;
+      double amount = (transaction['amount'] as num).toDouble();
       return FlSpot(date.millisecondsSinceEpoch.toDouble(), amount);
     }).toList();
   }
 
   @override
   List<FlSpot> getOutcomeData() {
+    return transaction
+        .where((transaction) =>
+            transaction['from'].toLowerCase() == userEmail?.toLowerCase())
+        .map((transaction) {
+      DateTime date = DateTime.parse(transaction['createdAt']);
+      double amount = (transaction['amount'] as num).toDouble();
+      return FlSpot(date.millisecondsSinceEpoch.toDouble(), amount);
+    }).toList();
+  }
+
+  @override
+  List<FlSpot> getTransactionData() {
     return transaction.map((transaction) {
       DateTime date = DateTime.parse(transaction['createdAt']);
-      double amount =
-          transaction['from'].toLowerCase() == userEmail?.toLowerCase()
-              ? (transaction['amount'] as num).toDouble()
-              : 0.0;
+      double amount = (transaction['amount'] as num).toDouble();
       return FlSpot(date.millisecondsSinceEpoch.toDouble(), amount);
     }).toList();
   }

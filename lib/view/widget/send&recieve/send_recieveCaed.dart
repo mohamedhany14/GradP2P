@@ -6,8 +6,6 @@ class send_recieveCard extends StatelessWidget {
   const send_recieveCard({super.key});
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
     final UserController userController = Get.put(UserController());
     return Padding(
       padding: const EdgeInsets.all(1.0),

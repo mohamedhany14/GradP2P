@@ -1,9 +1,9 @@
-import 'package:crypto_font_icons/crypto_font_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gradp2p/controller/crypto/ownedcrypto_Controller.dart';
 import 'package:gradp2p/controller/wallet_controller.dart';
-import 'package:gradp2p/view/widget/CryptoComponents/ownedCrypto.dart';
 import 'package:gradp2p/view/widget/balanceWalletContainer.dart';
+import 'package:gradp2p/view/widget/CryptoComponents/owneedCryptoContainer.dart';
 
 class Wallet extends StatelessWidget {
   Wallet({super.key});
@@ -12,6 +12,9 @@ class Wallet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final OwnedcryptoControllerImp cryptoController =
+        Get.put(OwnedcryptoControllerImp());
+         cryptoController.GetOwnedCrypto();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -41,7 +44,7 @@ class Wallet extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            Ownedcrypto(),
+            Owneedcryptocontainer(),
           ],
         ),
       ),

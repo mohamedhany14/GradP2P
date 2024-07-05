@@ -51,7 +51,7 @@ class otpcontrollerImp extends OtpController {
         Get.toNamed(AppRoute.Bottomnavbar);
       } else {
         print(request.headers);
-        final SharedPreferences prefs = await _prefs;
+
         print(otpController.text);
         print(response.reasonPhrase);
       }

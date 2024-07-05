@@ -44,7 +44,7 @@ class CustomAmountfield extends StatelessWidget {
         ),
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
+         // FilteringTextInputFormatter.digitsOnly,
           LengthLimitingTextInputFormatter(16),
         ], // Only numbers can be entered
       ),

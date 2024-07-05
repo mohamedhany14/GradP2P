@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:gradp2p/core/constants/routes.dart';
-import 'package:gradp2p/view/screens/ManageCards/Recharge.dart';
-import 'package:gradp2p/view/screens/ManageCards/withdrow.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,6 +45,7 @@ class WithdrowControllerImp extends WithdrowController {
     try {
       final SharedPreferences prefs = await _prefs;
       final token = prefs.getString('token');
+      final defaultCardId = prefs.getString('defaultCardId');
 
       if (token == null) {
         Get.snackbar("Error", "Token not found. Please login again.");
@@ -60,19 +59,19 @@ class WithdrowControllerImp extends WithdrowController {
           'POST',
           Uri.parse(
               'https://smart-pay.onrender.com/api/v0/transactions/rechargeOrDeposit'));
-      request.body = json.encode({
-        "cardId": "qGZkCLcX6vti3plL5RUMxZ",
-        "type": "Recharge",
-        "amount": amount.text
-      });
+      request.body = json.encode(
+          {"cardId": defaultCardId, "type": "Withdraw", "amount": amount.text});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
+        Get.snackbar("Success", "Withdraw  successfully.");
+        Get.offAllNamed(AppRoute.Bottomnavbar);
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", "Failed to Withdraw : ${response.reasonPhrase}");
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gradp2p/controller/transactionHistory_controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
+import 'package:gradp2p/controller/transactionHistory_controller.dart';
 
 class Dashboard extends StatelessWidget {
   final TransactionhistoryControllerImp controller =
@@ -20,8 +20,7 @@ class Dashboard extends StatelessWidget {
         double totalOutcome = controller.calculateTotalOutcome();
         int totalTransactions = controller.countTotalTransactions();
 
-        List<FlSpot> incomeData = controller.getIncomeData();
-        List<FlSpot> outcomeData = controller.getOutcomeData();
+        List<FlSpot> transactionData = controller.getTransactionData();
 
         return Padding(
           padding: const EdgeInsets.all(16.0),
@@ -75,15 +74,12 @@ class Dashboard extends StatelessWidget {
                     _buildCard('Transactions:', '$totalTransactions'),
                   ],
                 ),
+                SizedBox(height: 30.0),
                 Padding(
                   padding: const EdgeInsets.all(30.0),
                   child: _buildPieChartSection(
                       'Income vs Outcome:', totalIncome, totalOutcome),
                 ),
-                SizedBox(height: 20.0),
-                _buildChartSection('Income by Date:', incomeData),
-                SizedBox(height: 20.0),
-                _buildChartSection('Outcome by Date:', outcomeData),
               ],
             ),
           ),
@@ -154,62 +150,6 @@ class Dashboard extends StatelessWidget {
               showLegends: true,
               legendShape: BoxShape.circle,
               legendTextStyle: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildChartSection(String title, List<FlSpot> data1,
-      [List<FlSpot>? data2]) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(
-          height: 200.0,
-          child: LineChart(
-            LineChartData(
-              lineBarsData: [
-                LineChartBarData(
-                  spots: data1,
-                  isCurved: true,
-                  color: Colors.green,
-                  barWidth: 4,
-                  isStrokeCapRound: true,
-                  belowBarData: BarAreaData(show: false),
-                  dotData: FlDotData(show: false),
-                ),
-                if (data2 != null)
-                  LineChartBarData(
-                    spots: data2,
-                    isCurved: true,
-                    color: Colors.red,
-                    barWidth: 4,
-                    isStrokeCapRound: true,
-                    belowBarData: BarAreaData(show: false),
-                    dotData: FlDotData(show: false),
-                  ),
-              ],
-              titlesData: FlTitlesData(
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: (value, meta) {
-                      final date =
-                          DateTime.fromMillisecondsSinceEpoch(value.toInt());
-                      return Text("${date.day}/${date.month}");
-                    },
-                  ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(showTitles: true),
-                ),
-              ),
             ),
           ),
         ),

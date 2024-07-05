@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gradp2p/view/screens/auth/signup.dart';
 
 class CustomRegisterlinktext extends StatelessWidget {
   final Function() onTap;

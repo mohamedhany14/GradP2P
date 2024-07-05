@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:gradp2p/core/constants/routes.dart';
-import 'package:gradp2p/view/widget/homeContainers/homeCreditcardContainer.dart';
 import 'package:gradp2p/view/widget/send&recieve/send_recieveCaed.dart';
 
 class Billpaymentscreen extends StatelessWidget {
@@ -27,7 +25,6 @@ class Billpaymentscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bill Payment'),

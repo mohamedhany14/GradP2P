@@ -3,27 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:gradp2p/controller/ManageCards/AddCard_controller.dart';
 import 'package:gradp2p/controller/ManageCards/SelectBank_controller.dart';
-import 'package:gradp2p/core/constants/colors.dart';
 import 'package:gradp2p/core/functions/validInput.dart';
-import 'package:gradp2p/view/screens/test.dart';
 import 'package:gradp2p/view/widget/auth/custombuttonauth.dart';
 
 class addCard extends StatelessWidget {
   const addCard({super.key});
 
-// class _addCardState extends State<addCard> {
-//   var selectedBank;
 
-//   bool secureTextA = true;
-//   bool secureTextB = true;
-//   bool securePinA = true;
-//   List<String> banks = [
-//     'National Bank of Egypt (NBE)',
-//     'Banque Misr (BM)',
-//     'Commercial International Bank (CIB)',
-//     'Arab African International Bank (AAIB)',
-//     'QNB Alahli'
-//   ];
 
   @override
   Widget build(BuildContext context) {

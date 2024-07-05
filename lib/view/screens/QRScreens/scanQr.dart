@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:gradp2p/core/constants/routes.dart';
 import 'package:gradp2p/view/screens/QRScreens/ConfirmTransactionScreen.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 

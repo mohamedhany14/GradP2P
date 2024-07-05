@@ -1,17 +1,12 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
+import 'package:gradp2p/controller/ManageCards/DefaultCard_Controller.dart';
+import 'package:gradp2p/controller/ManageCards/GetCards_controller.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class DeletecardController extends GetxController {
-  DeleteCard();
-}
-
-class DeletecardControllerImp extends DeletecardController {
+class DeletecardController extends GetxController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  @override
   Future<void> DeleteCard() async {
     try {
       final SharedPreferences prefs = await _prefs;
@@ -43,7 +38,20 @@ class DeletecardControllerImp extends DeletecardController {
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        print(await response.stream.bytesToString());
+        // Clear default card information from SharedPreferences
+        await prefs.remove('defaultCardName');
+        await prefs.remove('defaultCardNumber');
+        await prefs.remove('defaultCardId');
+        await prefs.remove('defaultCardBalance');
+
+        // Optionally, call loadDefaultCard to update UI
+        DefaultCardController defaultCardController = Get.find<DefaultCardController>();
+        await defaultCardController.loadDefaultCard();
+
+        // Refresh the cards list
+        GetcardsControllerImp cardsController = Get.find<GetcardsControllerImp>();
+        await cardsController.GetCards();
+
         Get.snackbar("Success", "Card deleted successfully.");
       } else {
         print(response.reasonPhrase);

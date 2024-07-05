@@ -95,8 +95,7 @@ class signupcontrollerImp extends SignupController {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        final token =
-            jsonResponse['token']; // Extract the token from the response
+        final token = jsonResponse['token'];
         final data = jsonResponse['data'];
         // Save token in SharedPreferences
         final SharedPreferences prefs = await _prefs;
@@ -109,7 +108,7 @@ class signupcontrollerImp extends SignupController {
         await prefs.setString('birthDate', data['birthDate']);
         print(slelectgenderController.selectedgender.value);
         print(slelectcityController.selectedcity.value);
-        print("Token saved: $token");
+
         getCode();
         Get.offAllNamed(AppRoute.otp);
       } else {
@@ -146,8 +145,7 @@ class signupcontrollerImp extends SignupController {
       if (response.statusCode == 200) {
         print("otp");
         print(await response.stream.bytesToString());
-        //  Get.toNamed(AppRoute.Bottomnavbar);
-      } else {
+        
         print(response.reasonPhrase);
         Get.snackbar("Error", response.reasonPhrase!);
       }

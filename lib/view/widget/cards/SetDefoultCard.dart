@@ -85,7 +85,7 @@ class SetdefoultCard extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                'default card',
+                                'default',
                                 style: TextStyle(
                                   color: Color(0xFF5163BF),
                                   fontSize: 16,

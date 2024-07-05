@@ -39,6 +39,11 @@ class AppRoute {
   static const String Dashboard = "/Dashboard";
   static const String Buycrypto = "/Buycrypto";
   static const String Sellcrypto = "/Sellcrypto";
-   static const String Withdrow = "/Withdrow";
-    static const String Recharge = "/Recharge";
+  static const String Withdrow = "/Withdrow";
+  static const String Recharge = "/Recharge";
+  static const String addCard = "/addCard";
+  static const String checkdefoultBalance = "/checkdefoultBalance";
+  static const String Wallet = "/Wallet";
+    static const String SplashBot = "/SplashBot";
+
 }

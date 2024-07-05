@@ -12,7 +12,15 @@ class navDrawer extends StatelessWidget {
     String smartEmail = prefs.getString('smartEmail') ?? 'No Email';
     return {'name': name, 'smartEmail': smartEmail};
   }
-
+Future<void> clearToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('smartEmail');
+    await prefs.remove('name');
+    await prefs.remove('phone');
+    await prefs.remove('birthDate');
+    print("Token and user data cleared");
+  }
   @override
   Widget build(BuildContext context) => Drawer(
         child: SingleChildScrollView(
@@ -87,7 +95,7 @@ class navDrawer extends StatelessWidget {
               leading: const Icon(Icons.payment_outlined),
               title: const Text("My wallet"),
               onTap: () {
-                Get.toNamed(AppRoute.Bottomnavbar);
+                Get.toNamed(AppRoute.Wallet);
               },
             ),
             ListTile(
@@ -101,14 +109,14 @@ class navDrawer extends StatelessWidget {
               leading: const Icon(Icons.grid_view_rounded),
               title: const Text("Service"),
               onTap: () {
-                Get.toNamed(AppRoute.Bottomnavbar);
+                Get.toNamed(AppRoute.service);
               },
             ),
             ListTile(
               leading: const Icon(Icons.send),
               title: const Text("Help"),
               onTap: () {
-                Get.toNamed(AppRoute.Bottomnavbar);
+                Get.toNamed(AppRoute.SplashBot);
               },
             ),
             ListTile(
@@ -116,6 +124,14 @@ class navDrawer extends StatelessWidget {
               title: const Text("FAQ"),
               onTap: () {
                 Get.toNamed(AppRoute.Bottomnavbar);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
+              onTap: () async {
+                await clearToken();
+                Get.offAllNamed(AppRoute.login);
               },
             ),
           ],

@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:gradp2p/controller/recieve/recieve_controller.dart';
-import 'package:gradp2p/controller/send/send_controller.dart';
 import 'package:gradp2p/view/screens/QRScreens/generateQRcollect.dart';
 import 'package:gradp2p/view/screens/recieveScreens/MultipleCollect.dart';
 import 'package:gradp2p/view/screens/recieveScreens/mobileNumber.dart';
-import 'package:gradp2p/view/screens/sendScreens/navigatetoScanQr.dart';
 import 'package:gradp2p/view/screens/recieveScreens/paymentAddress.dart';
-import 'package:gradp2p/view/screens/sendScreens/card.dart';
-import 'package:gradp2p/view/screens/sendScreens/mobileNumber.dart';
-import 'package:gradp2p/view/screens/sendScreens/paymentAddress.dart';
 import 'package:gradp2p/view/widget/send&recieve/send_recieveCaed.dart';
 
 class Recievescreen extends StatelessWidget {

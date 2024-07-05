@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:gradp2p/core/constants/colors.dart';
 import 'package:gradp2p/core/services/services.dart';
 import 'package:gradp2p/routes.dart';
-import 'package:gradp2p/view/nagwaScreens/Portofolio.dart';
-import 'package:gradp2p/view/nagwaScreens/buy.dart';
-import 'package:gradp2p/view/nagwaScreens/sell.dart';
+
 import 'package:gradp2p/view/screens/bottomNavBar.dart';
 
 void main() async {

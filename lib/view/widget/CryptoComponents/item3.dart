@@ -8,8 +8,11 @@ class Item3 extends StatelessWidget {
 
   static const Map<String, double> marketCapChangePercentage24H = {
     'bitcoin': 5.0,
-    'ethereum': 3.2,
+    'ethereum': -3.2,
     'ripple': -2.5,
+     'solana': -19.6,
+    'staked-ether': -1934.09,
+    
     // Add more constants for each cryptocurrency
   };
 

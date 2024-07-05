@@ -108,6 +108,7 @@ class Sellcrypto extends StatelessWidget {
                     },
                     onnchanged: (val) {
                       controller.amount.value = val!;
+                      return null;
                     },
                   ),
                   SizedBox(height: 20),

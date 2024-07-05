@@ -1,18 +1,18 @@
 import 'dart:convert';
 import 'package:get/get.dart';
-import 'package:gradp2p/core/constants/routes.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class ConfirmnotiController extends GetxController {
-  Future<void> ConfirmNoti(String id);
+abstract class OwnedcryptoController extends GetxController {
+  Future<void> GetOwnedCrypto();
 }
 
-class ConfirmnotiControllerImp extends ConfirmnotiController {
+class OwnedcryptoControllerImp extends OwnedcryptoController {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  var ownedCrypto = [].obs; // Observable list to store owned crypto
 
   @override
-  Future<void> ConfirmNoti(String id) async {
+  Future<void> GetOwnedCrypto() async {
     try {
       final SharedPreferences prefs = await _prefs;
       final token = prefs.getString('token');
@@ -27,27 +27,30 @@ class ConfirmnotiControllerImp extends ConfirmnotiController {
         'Authorization': 'Bearer $token'
       };
 
-      var request = http.Request(
-          'POST',
-          Uri.parse(
-              'https://smart-pay.onrender.com/api/v0/notifications/confirmNotification/$id'));
-      request.body = json.encode({"accept": true});
+      var request = http.Request('GET',
+          Uri.parse('https://smart-pay.onrender.com/api/v0/users/crypto'));
+
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        print(await response.stream.bytesToString());
-        Get.snackbar("success", "ok");
-        Get.offNamed(AppRoute.Bottomnavbar);
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        ownedCrypto.value = jsonResponse['data'];
+        print(ownedCrypto);
+        // print(responseBody);
       } else {
-        Get.snackbar("error", "no");
-        print(id);
-        print(response);
-        print(response.reasonPhrase);
+        //  print(response.reasonPhrase);
       }
     } catch (e) {
       Get.snackbar("Exception", e.toString());
     }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    GetOwnedCrypto();
   }
 }

@@ -57,38 +57,38 @@ class Defoultcard extends StatelessWidget {
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  // Handle check balance action
-                },
-                child: Container(
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        'Check',
-                        style: TextStyle(
-                          color: Color(0xFF5163BF),
-                          fontSize: 16,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.05,
-                        ),
-                      ),
-                      Text(
-                        'Balance',
-                        style: TextStyle(
-                          color: Color(0xFF5163BF),
-                          fontSize: 16,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.05,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
+              // GestureDetector(
+              //   onTap: () {
+              //     // Handle check balance action
+              //   },
+              //   child: Container(
+              //     child: const Column(
+              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //       children: [
+              //         Text(
+              //           'Check',
+              //           style: TextStyle(
+              //             color: Color(0xFF5163BF),
+              //             fontSize: 16,
+              //             fontFamily: 'Poppins',
+              //             fontWeight: FontWeight.w500,
+              //             letterSpacing: 0.05,
+              //           ),
+              //         ),
+              //         Text(
+              //           'Balance',
+              //           style: TextStyle(
+              //             color: Color(0xFF5163BF),
+              //             fontSize: 16,
+              //             fontFamily: 'Poppins',
+              //             fontWeight: FontWeight.w500,
+              //             letterSpacing: 0.05,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

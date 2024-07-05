@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gradp2p/controller/auth/userControllers/user_controller.dart';
+import 'package:gradp2p/core/constants/routes.dart';
 
-class CreditCardContainer extends StatelessWidget {
-  const CreditCardContainer({super.key});
+class cardwallet extends StatelessWidget {
+  const cardwallet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,9 @@ class CreditCardContainer extends StatelessWidget {
               );
             }),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                    Get.toNamed(AppRoute.Wallet);
+              },
               child: Container(
                 child: const Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -16,7 +16,6 @@ class Signup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
     final SlelectgenderController genderSelectionController =
@@ -155,26 +154,7 @@ class Signup extends StatelessWidget {
                 mycontroller: controller.email,
               ),
 
-              //birth date field
-
-              // const Birthdatefield(),
-              // Customtextformfield(
-              //   valid: (val) {
-              //     return validInput(val!, 4, 7, "gender");
-              //   },
-              //   labeltext: "gender",
-              //   iconData: Icons.email_outlined,
-              //   mycontroller: controller.gender,
-              // ),
-
-              // Customtextformfield(
-              //   valid: (val) {
-              //     return validInput(val!, 3, 15, "city");
-              //   },
-              //   labeltext: "city",
-              //   iconData: Icons.email_outlined,
-              //   mycontroller: controller.city,
-              // ),
+           
               Customtextformfield(
                 valid: (val) {
                   return validInput(val!, 4, 11, "birth date");
@@ -183,11 +163,7 @@ class Signup extends StatelessWidget {
                 iconData: Icons.email_outlined,
                 mycontroller: controller.birthDate,
               ),
-//const Customselectgender(),
 
-              //            const Customselectcity(),
-
-              //password field
 
               GetBuilder<signupcontrollerImp>(
                 builder: (controller) => Passtextformfield(

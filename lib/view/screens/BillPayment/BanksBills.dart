@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gradp2p/controller/BillPayment/Banks_controller.dart';
-import 'package:gradp2p/controller/BillPayment/ClubSubscription_controller.dart';
-import 'package:gradp2p/controller/BillPayment/Education_controller.dart';
-import 'package:gradp2p/controller/BillPayment/Electricity_controller.dart';
-import 'package:gradp2p/controller/BillPayment/Gas_controller.dart';
-import 'package:gradp2p/controller/BillPayment/Water_controller.dart';
+
 import 'package:gradp2p/core/constants/colors.dart';
 import 'package:gradp2p/core/functions/validInput.dart';
 import 'package:gradp2p/view/widget/auth/customphonefield.dart';
@@ -17,7 +13,6 @@ class Banksbills extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[200], // Change to your `schafoldGrey` color

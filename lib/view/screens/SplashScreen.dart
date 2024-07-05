@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gradp2p/core/constants/colors.dart';
 import 'package:gradp2p/view/screens/auth/login.dart';
-import 'package:gradp2p/view/screens/onboardingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -13,7 +13,6 @@ class Mobilerecharge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[200], // Change to your `schafoldGrey` color

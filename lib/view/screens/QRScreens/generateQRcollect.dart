@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:gradp2p/core/functions/validInput.dart';
 import 'package:gradp2p/view/screens/QRScreens/generateCodeQR.dart';
 import 'package:gradp2p/view/widget/auth/custombuttonauth.dart';
-import 'package:gradp2p/view/widget/auth/customtextformfield.dart';
 import 'package:gradp2p/view/widget/send&recieve/customAmountField.dart';
 
 class ReceiveMoneyScreen extends StatefulWidget {
@@ -32,7 +31,6 @@ class _ReceiveMoneyScreenState extends State<ReceiveMoneyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -88,70 +86,3 @@ class _ReceiveMoneyScreenState extends State<ReceiveMoneyScreen> {
 
 
 
-
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:gradp2p/core/functions/validInput.dart';
-// import 'package:gradp2p/view/screens/QRScreens/generateCodeQR.dart';
-// import 'package:gradp2p/view/widget/auth/custombuttonauth.dart';
-// import 'package:gradp2p/view/widget/auth/customtextformfield.dart';
-// import 'package:gradp2p/view/widget/send&recieve/customAmountField.dart';
-
-// class ReceiveMoneyScreen extends StatelessWidget {
-//   final TextEditingController emailController = TextEditingController();
-//   final TextEditingController amountController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     double width = MediaQuery.of(context).size.width;
-//     double height = MediaQuery.of(context).size.height;
-//     return Padding(
-//       padding: const EdgeInsets.all(20.0),
-//       child: Container(
-//         height: height / 2,
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//           children: [
-//             Column(
-//               crossAxisAlignment: CrossAxisAlignment.stretch,
-//               children: [
-//                 Customtextformfield(
-//                   labeltext: "Payment adress ",
-//                   iconData: Icons.attach_email,
-//                   mycontroller: emailController,
-//                   valid: (val) {
-//                     return validInput(val!, 8, 30, "payment adress");
-//                   },
-//                 ),
-//                 SizedBox(height: 20),
-//                 CustomAmountfield(
-//                   valid: (val) {
-//                     return validInput(val!, 1, 6, "amount");
-//                   },
-//                   labeltext: "Enter amount ",
-//                   prefix: Icon(
-//                     Icons.attach_money_outlined,
-//                   ),
-//                   mycontroller: amountController,
-//                 ),
-//                 SizedBox(height: 20),
-//               ],
-//             ),
-//             Custombuttonauth(
-//                 buttonName: 'Generate QR Code',
-//                 onPressed: () {
-//                   String email = emailController.text;
-//                   String amount = amountController.text;
-//                   if (email.isNotEmpty && amount.isNotEmpty) {
-//                     List<String> qrData = [email, amount];
-//                     Get.to(() => GenerateQRScreen(qrData: qrData));
-//                   } else {
-//                     Get.snackbar('Error', 'Please fill in all fields');
-//                   }
-//                 })
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
