@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gradp2p/controller/auth/SlelectCity_controller.dart';
@@ -21,15 +20,11 @@ class signupcontrollerImp extends SignupController {
   late TextEditingController fullName;
   late TextEditingController phoneNumber;
   late TextEditingController email;
-  // late TextEditingController gender;
-  //late TextEditingController city;
   late TextEditingController birthDate;
   late TextEditingController password;
   late TextEditingController confirmPassword;
   bool isshowpassword = true;
   bool isshowpassword2 = true;
-  var selectedcity = ''.obs;
-  var selectedgender = ''.obs;
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final SlelectcityController slelectcityController = Get.find();
@@ -66,7 +61,6 @@ class signupcontrollerImp extends SignupController {
     fullName = TextEditingController();
     phoneNumber = TextEditingController();
     email = TextEditingController();
-
     birthDate = TextEditingController();
     password = TextEditingController();
     confirmPassword = TextEditingController();
@@ -102,12 +96,8 @@ class signupcontrollerImp extends SignupController {
         await prefs.setString('token', token);
         await prefs.setString('smartEmail', data['smartEmail']);
         await prefs.setString('name', data['name']);
-
         await prefs.setString('phone', data['phone']);
-
         await prefs.setString('birthDate', data['birthDate']);
-        print(slelectgenderController.selectedgender.value);
-        print(slelectcityController.selectedcity.value);
 
         getCode();
         Get.offAllNamed(AppRoute.otp);
@@ -131,11 +121,10 @@ class signupcontrollerImp extends SignupController {
         return;
       }
 
-      var headers = {'Authorization': 'Bearer$token'};
+      var headers = {'Authorization': 'Bearer $token'};
       var request = http.Request(
         'GET',
-        Uri.parse(
-            'https://smart-pay.onrender.com/api/v0/users/generatePhoneOtp'),
+        Uri.parse('https://smart-pay.onrender.com/api/v0/users/generatePhoneOtp'),
       );
 
       request.headers.addAll(headers);
@@ -145,7 +134,7 @@ class signupcontrollerImp extends SignupController {
       if (response.statusCode == 200) {
         print("otp");
         print(await response.stream.bytesToString());
-        
+      } else {
         print(response.reasonPhrase);
         Get.snackbar("Error", response.reasonPhrase!);
       }
@@ -159,7 +148,6 @@ class signupcontrollerImp extends SignupController {
     fullName.dispose();
     phoneNumber.dispose();
     email.dispose();
-
     birthDate.dispose();
     password.dispose();
     confirmPassword.dispose();

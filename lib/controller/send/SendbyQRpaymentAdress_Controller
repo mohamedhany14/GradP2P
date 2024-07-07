@@ -45,10 +45,10 @@ class SendbyQRpaymentAdressControllerImp extends SendbyQRpaymentAdressController
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
         Get.offAllNamed(AppRoute.Bottomnavbar);
-        Get.snackbar('Success', 'Transaction confirmed');
+        Get.snackbar("succes", "send succesfully.");
       } else {
         print(response.reasonPhrase);
-        Get.snackbar('Error', 'Failed to confirm transaction');
+       Get.snackbar("succes", "send Failed.");
       
         
       }

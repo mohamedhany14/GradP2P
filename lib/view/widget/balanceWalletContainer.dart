@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gradp2p/controller/wallet_controller.dart';
 
 class Balancewalletcontainer extends StatelessWidget {
-  const Balancewalletcontainer({super.key});
+    final WalletBalanceControllerImp controller =
+      Get.put(WalletBalanceControllerImp());
+   Balancewalletcontainer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +39,18 @@ class Balancewalletcontainer extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Row(
               children: [
-
-                Text(
-                  '350,000,000 LE',
-                  style: TextStyle(
+                Obx(
+                  () => Text(
+                    '${controller.balance.value.toStringAsFixed(2)} LE',
+                     style: TextStyle(
                     color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                   ),
+                  ),
                 ),
+                
+            
               ],
             ),
           ),

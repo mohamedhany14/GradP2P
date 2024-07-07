@@ -1,50 +1,56 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class WalletController extends GetxController {
-  var dropdownValue = 'EGY'.obs;
+abstract class WalletBalanceController extends GetxController {
+  Future<void> getWalletBalance();
+}
 
-  Widget dropDownIcon = Icon(
-    Icons.currency_pound,
-    color: Colors.white,
-    size: 30,
-  ).obs.value;
-  Widget dropDownIcon2 = Icon(
-    Icons.currency_pound,
-    color: Colors.black,
-    size: 20,
-  ).obs.value;
+class WalletBalanceControllerImp extends WalletBalanceController {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  var balance = 0.0.obs; // Observable variable to store the balance
 
-  var items = [
-    'EGY',
-    'USD',
-  ];
+  @override
+  Future<void> getWalletBalance() async {
+    try {
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
 
-  void updateDropdownValue(String newValue) {
-    dropdownValue.value = newValue;
-    if (newValue == 'EGY') {
-      dropDownIcon = Icon(
-        Icons.currency_pound,
-        color: Colors.white,
-        size: 30,
-      );
-      dropDownIcon2 = Icon(
-        Icons.currency_pound,
-        color: Colors.black,
-        size: 20,
-      );
-    } else {
-      dropDownIcon = Icon(
-        Icons.attach_money,
-        color: Colors.white,
-        size: 36,
-      );
-      dropDownIcon2 = Icon(
-        Icons.attach_money,
-        color: Colors.black,
-        size: 20,
-      );
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+
+      var request = http.Request('GET',
+          Uri.parse('https://smart-pay.onrender.com/api/v0/users/balance'));
+
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        balance.value = jsonResponse['data']['balance'];
+        print('Balance: ${balance.value}');
+      } else {
+        print('Failed with status code: ${response.statusCode}');
+        print('Response body: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      Get.snackbar("Exception", e.toString());
     }
-    update();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    getWalletBalance();
   }
 }

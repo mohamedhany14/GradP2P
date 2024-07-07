@@ -67,8 +67,9 @@ class RechargeControllerImp extends RechargeController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-        Get.snackbar("Success", "Recharged  successfully.");
+
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Success", "Recharged  successfully.");
       } else {
         print(response.reasonPhrase);
         Get.snackbar("Error", "Failed to recharge : ${response.reasonPhrase}");

@@ -1,38 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:gradp2p/controller/chatBoot_Controller.dart';
 import 'package:gradp2p/core/constants/routes.dart';
 
-class ChatController extends GetxController {
-  var messages = <String>[].obs;
-
-  void sendMessage(String message) {
-    messages.add("User: $message");
-    getResponse(message);
-  }
-
-  void getResponse(String message) async {
-    await Future.delayed(Duration(seconds: 5)); // Delay for 2 seconds
-    String response = getCustomResponse(message);
-    messages.add("Bot: $response");
-  }
-
-  String getCustomResponse(String message) {
-    // Define your custom responses here
-    if (message.toLowerCase().contains("hello")) {
-      return "Hi there! How can I help you today?";
-    } else if (message.toLowerCase().contains("help")) {
-      return "Sure, what do you need help with?";
-    } else {
-      return "I'm sorry, I didn't understand that.";
-    }
-  }
-}
-
-// Update the import path as necessary
-
 class ChatScreen extends StatelessWidget {
-  final ChatController chatController = Get.put(ChatController());
+  final ChatbootControllerImp chatController = Get.put(ChatbootControllerImp());
   final TextEditingController textController = TextEditingController();
 
   @override
@@ -59,8 +31,28 @@ class ChatScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: chatController.messages.length,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(chatController.messages[index]),
+                  var message = chatController.messages[index];
+                  var content = message['content'] ?? ''; // Add null check
+                  bool isUserMessage = message['role'] == 'user';
+                  return Align(
+                    alignment: isUserMessage
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: Container(
+                      padding: EdgeInsets.all(12),
+                      margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: isUserMessage
+                            ? Colors.blueAccent
+                            : Colors.grey[300],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        content,
+                        style: TextStyle(
+                            color: isUserMessage ? Colors.white : Colors.black),
+                      ),
+                    ),
                   );
                 },
               );
@@ -94,10 +86,4 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(GetMaterialApp(
-    home: ChatScreen(),
-  ));
 }

@@ -13,8 +13,8 @@ class Multiplecollect extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    RecievebymultiplecollectControllerImp controller =
-        Get.put(RecievebymultiplecollectControllerImp());
+    RecievebyCardControllerImp controller =
+        Get.put(RecievebyCardControllerImp());
     return Form(
       key: controller.formstate,
       child: Container(
@@ -24,15 +24,15 @@ class Multiplecollect extends StatelessWidget {
           children: [
             Column(
               children: [
-                Customphonefield(
+                 CustomAmountfield(
                   valid: (val) {
-                    return validInput(val!, 11, 11, "Mobile number");
+                    return validInput(val!, 16, 16, "cardnumber");
                   },
-                  labeltext: "Mobile number",
+                  labeltext: "card number  ",
                   prefix: Icon(
                     Icons.credit_card,
                   ),
-                  mycontroller: controller.Mobilenumber,
+                  mycontroller: controller.cardnumber,
                 ),
                 SizedBox(
                   height: 20,

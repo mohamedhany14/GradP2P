@@ -30,7 +30,7 @@ class SendbymobileControllerImp extends SendbymobileController {
       print(amount);
       Sendbymobile();
 
-      // logiWithPhone();
+     
     } else {
       print("Not Valid");
     }
@@ -69,9 +69,12 @@ class SendbymobileControllerImp extends SendbymobileController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
+      
         Get.offAllNamed(AppRoute.Bottomnavbar);
+         Get.snackbar("succes", "send succesfully.");
       } else {
         print(response.reasonPhrase);
+            Get.snackbar("Erorr", "send  failed");
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

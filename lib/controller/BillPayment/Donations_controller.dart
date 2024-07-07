@@ -129,8 +129,10 @@ class DonationsControllerImp extends DonationsController {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exception", e.toString());

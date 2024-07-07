@@ -1,4 +1,15 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/BanksInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/ClubsInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/EducationInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/ElectricityInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/FinancialInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/GasInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/InternetInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/LandLineInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/MobileRechargeInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/TraficInvoice.dart';
+import 'package:gradp2p/view/screens/BillPayment/Invoices/WaterInvoice.dart';
 import 'package:gradp2p/view/screens/Home/Wallet.dart';
 import 'package:gradp2p/view/screens/ManageCards/defoultCardBalance.dart';
 import 'package:gradp2p/core/constants/routes.dart';
@@ -46,6 +57,7 @@ import 'package:gradp2p/view/screens/sendScreens/sendScreen.dart';
 import 'package:gradp2p/view/screens/service.dart';
 import 'package:gradp2p/view/screens/transactionHistory.dart';
 import 'package:gradp2p/view/screens/collect/collectNotifications.dart';
+import 'package:gradp2p/view/widget/CryptoHistory.dart';
 
 List<GetPage<dynamic>>? routes = [
   GetPage(
@@ -103,10 +115,23 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: AppRoute.Sellcrypto, page: () => Sellcrypto()),
   GetPage(name: AppRoute.Withdrow, page: () => Withdrow()),
   GetPage(name: AppRoute.Recharge, page: () => Recharge()),
-  GetPage(name: AppRoute.checkdefoultBalance, page: () => checkdefoultBalance()),
+  GetPage(
+      name: AppRoute.checkdefoultBalance, page: () => checkdefoultBalance()),
   GetPage(name: AppRoute.addCard, page: () => addCard()),
-    GetPage(name: AppRoute.Wallet, page: () => Wallet()),
-        GetPage(name: AppRoute.SplashBot, page: () => SplashBot()),
+  GetPage(name: AppRoute.Wallet, page: () => Wallet()),
+  GetPage(name: AppRoute.SplashBot, page: () => SplashBot()),
+  GetPage(name: AppRoute.Cryptohistory, page: () => Cryptohistory()),
+  GetPage(name: AppRoute.Electricityinvoice, page: () => Electricityinvoice()),
+  GetPage(name: AppRoute.Banksinvoice, page: () => Banksinvoice()),
+  GetPage(name: AppRoute.Financialinvoice, page: () => Financialinvoice()),
+  GetPage(name: AppRoute.Clubsinvoice, page: () => Clubsinvoice()),
+  GetPage(name: AppRoute.Traficinvoice, page: () => Traficinvoice()),
+  GetPage(name: AppRoute.Educationinvoice, page: () => Educationinvoice()),
+  GetPage(name: AppRoute.Landlineinvoice, page: () => Landlineinvoice()),
+  GetPage(name: AppRoute.Internetinvoice, page: () => Internetinvoice()),
+  GetPage(
+      name: AppRoute.Mobilerechargeinvoice,
+      page: () => Mobilerechargeinvoice()),
+  GetPage(name: AppRoute.Gasinvoice, page: () => Gasinvoice()),
+  GetPage(name: AppRoute.Waterinvoice, page: () => Waterinvoice()),
 ];
-
-

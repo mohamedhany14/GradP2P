@@ -14,13 +14,13 @@ class Billpaymentscreen extends StatelessWidget {
     {'text': ' Gas Bills ', 'imageUrl': 'assets/images/Pressure.png'},
     {'text': ' Water Bills ', 'imageUrl': 'assets/images/Group 1 (5) 1.jpg'},
     {'text': ' Education ', 'imageUrl': 'assets/images/school_8670806 (1).png'},
-    {'text': ' Traffic Fines ', 'imageUrl': 'assets/images/wifi.png'},
+    {'text': ' Traffic Fines ',  'imageUrl':'assets/images/speeding-ticket.png'},
     {
       'text': ' Clubs Subscription ',
-      'imageUrl': 'assets/images/icons8-phone-16.png'
+      'imageUrl': 'assets/images/night-club.png'
     },
-    {'text': ' Financial ', 'imageUrl': 'assets/images/icons8-phone-16.png'},
-    {'text': ' Banks ', 'imageUrl': 'assets/images/icons8-phone-16.png'},
+    {'text': ' Financial ', 'imageUrl': 'assets/images/blue.png'},
+    {'text': ' Banks ', 'imageUrl': 'assets/images/bank.png'},
   ];
 
   @override

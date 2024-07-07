@@ -45,11 +45,13 @@ class DeletecardController extends GetxController {
         await prefs.remove('defaultCardBalance');
 
         // Optionally, call loadDefaultCard to update UI
-        DefaultCardController defaultCardController = Get.find<DefaultCardController>();
+        DefaultCardController defaultCardController =
+            Get.find<DefaultCardController>();
         await defaultCardController.loadDefaultCard();
 
         // Refresh the cards list
-        GetcardsControllerImp cardsController = Get.find<GetcardsControllerImp>();
+        GetcardsControllerImp cardsController =
+            Get.find<GetcardsControllerImp>();
         await cardsController.GetCards();
 
         Get.snackbar("Success", "Card deleted successfully.");

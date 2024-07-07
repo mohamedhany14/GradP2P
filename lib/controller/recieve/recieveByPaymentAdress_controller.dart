@@ -71,8 +71,10 @@ class RecievebypaymentAdressControllerImp
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("succes", "sent succesfully.");
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", "Collect Failed.");
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

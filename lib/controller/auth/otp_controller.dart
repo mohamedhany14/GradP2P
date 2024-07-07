@@ -48,7 +48,7 @@ class otpcontrollerImp extends OtpController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-        Get.toNamed(AppRoute.Bottomnavbar);
+        Get.offNamed(AppRoute.Bottomnavbar);
       } else {
         print(request.headers);
 

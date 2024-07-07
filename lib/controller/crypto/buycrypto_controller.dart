@@ -69,10 +69,11 @@ class BuycryptoControllerImp extends BuycryptoController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-        Get.offAllNamed(AppRoute.CryptoHome);
-        Get.snackbar("success", "buy done");
+        Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("success", "Buy done");
       } else {
         print(response.reasonPhrase);
+          Get.snackbar("Error", "Buy Failed");
       }
     } catch (e) {
       Get.snackbar("Exception", e.toString());

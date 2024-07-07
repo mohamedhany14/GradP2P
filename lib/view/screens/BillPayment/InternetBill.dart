@@ -179,7 +179,7 @@ class Internetbill extends StatelessWidget {
                                     Customphonefield(
                                       valid: (val) {
                                         return validInput(
-                                            val!, 11, 11, "Phone number");
+                                            val!, 9, 10, "HomePhone number");
                                       },
                                       labeltext: controller.DSLProvidersList[
                                               controller.current.value]

@@ -44,7 +44,7 @@ class LandlineControllerImp extends LandlineController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Landlineinvoice);
     } else {
       print("Not Valid");
     }
@@ -87,8 +87,10 @@ class LandlineControllerImp extends LandlineController {
         print(await response.stream.bytesToString());
 
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

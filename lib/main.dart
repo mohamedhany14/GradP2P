@@ -4,12 +4,11 @@ import 'package:gradp2p/core/constants/colors.dart';
 import 'package:gradp2p/core/services/services.dart';
 import 'package:gradp2p/routes.dart';
 
-import 'package:gradp2p/view/screens/bottomNavBar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialservices();
-  
+
   runApp(const MyApp());
 }
 
@@ -36,7 +35,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Bottomnavbar(),
+     
       getPages: routes,
     );
   }

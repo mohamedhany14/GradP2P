@@ -44,6 +44,17 @@ class AppRoute {
   static const String addCard = "/addCard";
   static const String checkdefoultBalance = "/checkdefoultBalance";
   static const String Wallet = "/Wallet";
-    static const String SplashBot = "/SplashBot";
-
+  static const String SplashBot = "/SplashBot";
+  static const String Cryptohistory = "/Cryptohistory";
+  static const String Electricityinvoice = "/Electricityinvoice";
+  static const String Banksinvoice = "/Banksinvoice";
+  static const String Financialinvoice = "/Financialinvoice";
+  static const String Clubsinvoice = "/Clubsinvoice";
+  static const String Traficinvoice = "/Traficinvoice";
+  static const String Educationinvoice = "/Educationinvoice";
+  static const String Waterinvoice = "/Waterinvoice";
+  static const String Gasinvoice = "/Gasinvoice";
+  static const String Mobilerechargeinvoice = "/Mobilerechargeinvoice";
+  static const String Internetinvoice = "/Internetinvoice";
+  static const String Landlineinvoice = "/Landlineinvoice";
 }

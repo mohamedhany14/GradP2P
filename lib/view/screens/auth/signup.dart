@@ -10,6 +10,7 @@ import 'package:gradp2p/view/widget/auth/customphonefield.dart';
 
 import 'package:gradp2p/view/widget/auth/customtextformfield.dart';
 import 'package:gradp2p/view/widget/auth/loginlinktext.dart';
+import 'package:intl/intl.dart';
 
 class Signup extends StatelessWidget {
   const Signup({super.key});
@@ -154,16 +155,95 @@ class Signup extends StatelessWidget {
                 mycontroller: controller.email,
               ),
 
-           
-              Customtextformfield(
-                valid: (val) {
-                  return validInput(val!, 4, 11, "birth date");
-                },
-                labeltext: "birth date",
-                iconData: Icons.email_outlined,
-                mycontroller: controller.birthDate,
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+
+                    if (pickedDate != null &&
+                        pickedDate.isBefore(DateTime.now()
+                            .subtract(Duration(days: 365 * 18)))) {
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      controller.birthDate.text = formattedDate;
+                    } else {
+                      // Show error if the picked date is less than 18 years from today
+                      Get.snackbar(
+                          "Invalid Date", "You must be at least 18 years old.");
+                    }
+                  },
+                  child: AbsorbPointer(
+                    child: TextFormField(
+                      controller: controller.birthDate,
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.date_range_outlined,
+                        ),
+                        labelText: "Birth Date",
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 2, color: Colors.blue),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      validator: (val) {
+                        if (val == null || val.isEmpty) {
+                          return 'Please enter your birth date';
+                        }
+                        return null;
+                      },
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                ),
               ),
 
+              // Padding(
+              //   padding: const EdgeInsets.all(10.0),
+              //   child: TextFormField(
+              //     validator: (val) {
+              //       return validInput(val!, 4, 11, "birth date");
+              //     },
+              //     controller: controller.birthDate,
+              //     decoration: InputDecoration(
+              //       prefixIcon: Icon(
+              //         Icons.date_range_outlined,
+              //       ),
+              //       labelText: "birth date",
+              //       focusedBorder: OutlineInputBorder(
+              //         borderSide: const BorderSide(width: 2, color: TextColor1),
+              //         borderRadius: BorderRadius.circular(15),
+              //       ),
+              //       // border: ,
+              //       enabledBorder: OutlineInputBorder(
+              //         borderSide: const BorderSide(color: Colors.black),
+              //         borderRadius: BorderRadius.circular(15),
+              //       ),
+              //     ),
+              //     keyboardType: TextInputType.number,
+              //     inputFormatters: <TextInputFormatter>[
+              //       LengthLimitingTextInputFormatter(10),
+              //     ], // Only numbers can be entered
+              //   ),
+              // ),
+              // Customtextformfield(
+              //   valid: (val) {
+              //     return validInput(val!, 4, 11, "birth date");
+              //   },
+              //   labeltext: "birth date",
+              //   iconData: Icons.email_outlined,
+              //         keyboardType: TextInputType.number,
+              //   mycontroller: controller.birthDate,
+              // ),
 
               GetBuilder<signupcontrollerImp>(
                 builder: (controller) => Passtextformfield(

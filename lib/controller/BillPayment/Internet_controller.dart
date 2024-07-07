@@ -71,7 +71,7 @@ class InternetControllerImp extends InternetController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Internetinvoice);
     } else {
       print("Not Valid");
     }
@@ -114,8 +114,10 @@ class InternetControllerImp extends InternetController {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

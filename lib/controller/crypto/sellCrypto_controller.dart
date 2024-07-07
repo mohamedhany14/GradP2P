@@ -69,10 +69,11 @@ class SellcryptoControllerImp extends SellcryptoController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-        Get.offAllNamed(AppRoute.CryptoHome);
-        Get.snackbar("success", "sell done");
+        Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("success", "Sell Done");
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error ", "Sell Failed");
       }
     } catch (e) {
       Get.snackbar("Exception", e.toString());

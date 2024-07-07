@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gradp2p/controller/send/sendByCard_controller.dart';
 import 'package:gradp2p/core/functions/validInput.dart';
-import 'package:gradp2p/view/widget/auth/customphonefield.dart';
-import 'package:gradp2p/view/widget/auth/customtextformfield.dart';
 import 'package:gradp2p/view/widget/send&recieve/customAmountField.dart';
 import 'package:gradp2p/view/widget/send&recieve/customConfirmButton.dart';
 
@@ -23,7 +21,7 @@ class sendToCard extends StatelessWidget {
           children: [
             Column(
               children: [
-                Customphonefield(
+                CustomAmountfield(
                   valid: (val) {
                     return validInput(val!, 16, 16, "cardnumber");
                   },
@@ -35,14 +33,6 @@ class sendToCard extends StatelessWidget {
                 ),
                 SizedBox(
                   height: 20,
-                ),
-                Customtextformfield(
-                  labeltext: "card Holder Name",
-                  iconData: Icons.credit_card,
-                  mycontroller: controller.cardHoldername,
-                  valid: (val) {
-                    return validInput(val!, 10, 30, "card Holder Name");
-                  },
                 ),
                 SizedBox(
                   height: 20,

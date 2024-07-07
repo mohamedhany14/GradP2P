@@ -23,7 +23,7 @@ class Dashboard extends StatelessWidget {
         List<FlSpot> transactionData = controller.getTransactionData();
 
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +93,7 @@ class Dashboard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       elevation: 4.0,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Text(

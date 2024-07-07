@@ -38,13 +38,14 @@ class ConfirmnotiControllerImp extends ConfirmnotiController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-        Get.snackbar("success", "ok");
+
         Get.offNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("succes", "send succesfully.");
       } else {
-        Get.snackbar("error", "no");
         print(id);
         print(response);
         print(response.reasonPhrase);
+        Get.snackbar("Error", "send Failed.");
       }
     } catch (e) {
       Get.snackbar("Exception", e.toString());

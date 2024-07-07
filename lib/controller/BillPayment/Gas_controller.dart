@@ -66,7 +66,7 @@ class GasControllerImp extends GasController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Gasinvoice);
     } else {
       print("Not Valid");
     }
@@ -108,10 +108,12 @@ class GasControllerImp extends GasController {
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
-        Get.snackbar("success", "success");
+
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

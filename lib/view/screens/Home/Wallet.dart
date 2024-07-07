@@ -8,7 +8,7 @@ import 'package:gradp2p/view/widget/CryptoComponents/owneedCryptoContainer.dart'
 class Wallet extends StatelessWidget {
   Wallet({super.key});
 
-  final WalletController controller = Get.put(WalletController());
+ // final WalletController controller = Get.put(WalletController());
 
   @override
   Widget build(BuildContext context) {

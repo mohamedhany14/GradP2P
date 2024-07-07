@@ -113,6 +113,13 @@ Future<void> clearToken() async {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.currency_bitcoin_outlined),
+              title: const Text("Crypto History"),
+              onTap: () {
+                Get.toNamed(AppRoute.Cryptohistory);
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.send),
               title: const Text("Help"),
               onTap: () {

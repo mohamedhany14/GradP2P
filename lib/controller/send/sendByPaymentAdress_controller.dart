@@ -68,8 +68,10 @@ class SendbypaymentAdressControllerImp extends SendbypaymentAdressController {
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
         Get.offAllNamed(AppRoute.Bottomnavbar);
+           Get.snackbar("succes", "send succesfully.");
       } else {
         print(response.reasonPhrase);
+           Get.snackbar("Error", "send Failed.");
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

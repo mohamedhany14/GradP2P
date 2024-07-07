@@ -5,7 +5,8 @@ import 'package:gradp2p/controller/ManageCards/GetCards_controller.dart';
 
 class SetdefoultCard extends StatelessWidget {
   final GetcardsControllerImp controller = Get.put(GetcardsControllerImp());
-  final DefaultCardController defaultCardController = Get.put(DefaultCardController());
+  final DefaultCardController defaultCardController =
+      Get.put(DefaultCardController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,11 @@ class SetdefoultCard extends StatelessWidget {
             itemCount: controller.cards.length,
             itemBuilder: (context, index) {
               var card = controller.cards[index];
+              var cardNumber = card['number'];
+              var lastFourDigits = cardNumber.length > 4
+                  ? cardNumber.substring(cardNumber.length - 4)
+                  : cardNumber;
+
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -55,7 +61,7 @@ class SetdefoultCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            card['number'],
+                            '**** **** **** $lastFourDigits',
                             style: TextStyle(
                               color: Color(0xFF1E1E1E),
                               fontSize: 12,

@@ -28,10 +28,9 @@ class SendbyCardControllerImp extends SendbyCardController {
     if (formdata!.validate()) {
       print("Valid");
       print(cardnumber);
-      print(cardHoldername);
+
       print(amount);
-      Get.offAllNamed(AppRoute.Bottomnavbar);
-      // logiWithPhone();
+      SendbyCard();
     } else {
       print("Not Valid");
     }
@@ -49,25 +48,33 @@ class SendbyCardControllerImp extends SendbyCardController {
   @override
   Future<void> SendbyCard() async {
     try {
-      var headers = {'Content-Type': 'application/json'};
+      final SharedPreferences prefs = await _prefs;
+      final token = prefs.getString('token');
+
+      if (token == null) {
+        Get.snackbar("Error", "Token not found. Please login again.");
+        return;
+      }
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+
       var request = http.Request('POST',
-          Uri.parse('https://smart-pay.onrender.com/api/v0/users/login'));
-      request.body = json.encode({
-        "phone": cardnumber.text,
-        "card name ": cardHoldername.text,
-        "amount": amount.text
-      });
+          Uri.parse('https://smart-pay.onrender.com/api/v0/transactions/send'));
+      request.body =
+          json.encode({"cardNumber": cardnumber.text, "amount": amount.text});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-
         Get.offAllNamed(AppRoute.Bottomnavbar);
+           Get.snackbar("succes", "send succesfully.");
       } else {
         print(response.reasonPhrase);
-        // Get.showSnackbar("eroooooor" as GetSnackBar);
+         Get.snackbar("Error", "Send Failed ");
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

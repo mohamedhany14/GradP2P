@@ -118,7 +118,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Clubsinvoice);
     } else {
       print("Not Valid");
     }
@@ -152,7 +152,7 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
               'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
       request.body = json.encode({
         "smartEmail": selectedProviderEmail.toString(),
-        "amount": 300,
+        "amount": 5000,
       });
       request.headers.addAll(headers);
 
@@ -162,8 +162,10 @@ class ClubsubscriptionControllerImp extends ClubsubscriptionController {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
+           Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+           Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

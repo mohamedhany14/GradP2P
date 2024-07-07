@@ -24,8 +24,10 @@ class AddcardControllerImp extends AddcardController {
   bool isshowpassword2 = true;
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final BankSelectionController bankSelectionController = Get.find(); // Find the BankSelectionController
-  final GetcardsControllerImp cardsController = Get.find(); // Find the GetcardsControllerImp
+  final BankSelectionController bankSelectionController =
+      Get.find(); // Find the BankSelectionController
+  final GetcardsControllerImp cardsController =
+      Get.find(); // Find the GetcardsControllerImp
 
   void showhidePassword2() {
     isshowpassword2 = !isshowpassword2;
@@ -85,6 +87,7 @@ class AddcardControllerImp extends AddcardController {
         cardsController.GetCards(); // Update cards list after adding a new card
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", "Adding Card Failed");
       }
     } catch (e) {
       Get.snackbar("Exception", e.toString());

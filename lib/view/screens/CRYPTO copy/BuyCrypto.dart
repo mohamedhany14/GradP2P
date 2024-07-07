@@ -97,11 +97,11 @@ class Buycrypto extends StatelessWidget {
               Column(
                 children: [
                   CustomAmountfield(
-                    labeltext: 'Amount in USD',
+                    labeltext: "$name amount",
                     mycontroller: TextEditingController()
                       ..text = controller.amount.value,
                     prefix: Icon(
-                      Icons.attach_money_outlined,
+                      Icons.currency_bitcoin_outlined,
                     ),
                     valid: (val) {
                       return validInput(val!, 1, 6, "amount");
@@ -116,7 +116,7 @@ class Buycrypto extends StatelessWidget {
                   Obx(() {
                     final amount =
                         double.tryParse(controller.amount.value) ?? 0.0;
-                    final cryptoAmount = amount / price;
+                    final cryptoAmount = amount * price;
                     return Card(
                       elevation: 2,
                       shape: RoundedRectangleBorder(
@@ -127,7 +127,7 @@ class Buycrypto extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              "$name amount",
+                              "amount in USD",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

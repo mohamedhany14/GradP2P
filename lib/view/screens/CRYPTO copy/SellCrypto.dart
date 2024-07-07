@@ -97,11 +97,11 @@ class Sellcrypto extends StatelessWidget {
               Column(
                 children: [
                   CustomAmountfield(
-                    labeltext: 'Amount in USD',
+                    labeltext: "$name amount",
                     mycontroller: TextEditingController()
                       ..text = controller.amount.value,
                     prefix: Icon(
-                      Icons.attach_money_outlined,
+                      Icons.currency_bitcoin_outlined,
                     ),
                     valid: (val) {
                       return validInput(val!, 1, 6, "amount");
@@ -128,7 +128,7 @@ class Sellcrypto extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              "$name amount",
+                              "amount in USD",
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

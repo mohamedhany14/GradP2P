@@ -67,8 +67,9 @@ class WithdrowControllerImp extends WithdrowController {
 
       if (response.statusCode == 200) {
         print(await response.stream.bytesToString());
-        Get.snackbar("Success", "Withdraw  successfully.");
+
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Success", "Withdraw  successfully.");
       } else {
         print(response.reasonPhrase);
         Get.snackbar("Error", "Failed to Withdraw : ${response.reasonPhrase}");

@@ -70,7 +70,7 @@ class cardwallet extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Balance',
+                      'Wallet',
                       style: TextStyle(
                         color: Color(0xFF5163BF),
                         fontSize: 16,

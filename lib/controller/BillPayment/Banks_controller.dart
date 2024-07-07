@@ -70,7 +70,7 @@ class BanksControllerImp extends BanksController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Banksinvoice);
     } else {
       print("Not Valid");
     }
@@ -104,7 +104,7 @@ class BanksControllerImp extends BanksController {
               'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
       request.body = json.encode({
         "smartEmail": selectedProviderEmail.toString(),
-        "amount": 300,
+        "amount": 3000,
       });
       request.headers.addAll(headers);
 
@@ -114,8 +114,10 @@ class BanksControllerImp extends BanksController {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
+           Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+           Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

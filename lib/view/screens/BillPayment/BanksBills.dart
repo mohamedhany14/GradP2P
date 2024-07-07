@@ -181,8 +181,7 @@ class Banksbills extends StatelessWidget {
                                         return validInput(
                                             val!, 6, 16, "amount");
                                       },
-                                      labeltext: controller.BanksList[controller
-                                          .current.value]['TextFieldLabel'],
+                                      labeltext: "Subscribe Number",
                                       prefix: Icon(
                                         Icons.picture_in_picture_outlined,
                                       ),
@@ -196,7 +195,8 @@ class Banksbills extends StatelessWidget {
                                         return validInput(
                                             val!, 11, 11, "phonenumber");
                                       },
-                                      labeltext: "Phone Number ",
+                                      labeltext: controller.BanksList[controller
+                                          .current.value]['TextFieldLabel'],
                                       prefix: Icon(
                                         Icons.mobile_friendly_rounded,
                                       ),

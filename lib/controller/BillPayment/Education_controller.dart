@@ -68,20 +68,6 @@ class EducationControllerImp extends EducationController {
       'imageUrl': 'assets/images/education/Egyptian E-learing.jpeg',
       'email': 'egyptian_e_learing@smartpay.com'
     },
-    {
-      'text': 'International Academy',
-      'text2': 'International Academy Tuitions',
-      'TextFieldLabel': 'Student ID',
-      'imageUrl': 'assets/images/we.png',
-      'email': 'international_academy@smartpay.com'
-    },
-    {
-      'text': 'Mina University',
-      'text2': 'Mina University Tuitions',
-      'TextFieldLabel': 'Student ID',
-      'imageUrl': 'assets/images/we.png',
-      'email': 'mina_university@smartpay.com'
-    },
   ];
 
   String selectedProviderEmail = '';
@@ -96,7 +82,7 @@ class EducationControllerImp extends EducationController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Educationinvoice);
     } else {
       print("Not Valid");
     }
@@ -140,8 +126,10 @@ class EducationControllerImp extends EducationController {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

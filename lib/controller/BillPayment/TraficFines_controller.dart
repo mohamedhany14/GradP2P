@@ -26,12 +26,12 @@ class TraficfinesControllerImp extends TraficfinesController {
     {
       'text': ' Trafic Car Fines',
       'TextFieldLabel': '  License Plate Numeric Secton. ',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/trafic.jpeg',
     },
     {
       'text': ' Trafic Personal Fines',
       'TextFieldLabel': ' National ID ',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/trafic.jpeg',
     },
   ];
   void changeIndex(int index) {
@@ -44,7 +44,7 @@ class TraficfinesControllerImp extends TraficfinesController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Traficinvoice);
     } else {
       print("Not Valid");
     }
@@ -87,8 +87,10 @@ class TraficfinesControllerImp extends TraficfinesController {
         print(await response.stream.bytesToString());
 
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

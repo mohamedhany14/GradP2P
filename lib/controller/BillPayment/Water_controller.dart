@@ -26,62 +26,56 @@ class WaterControllerImp extends WaterController {
     {
       'text': 'AlexWater',
       'TextFieldLabel': 'E-Payment Code(14-Digits)',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/AlexWater.jpeg',
       'email': 'AlexWater@smartpay.com'
     },
     {
       'text': 'Cairo Water',
       'TextFieldLabel': 'E-Payment Code(14-Digits)',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/Cairo Water.jpeg',
       'email': 'CairoWater@smartpay.com'
     },
     {
       'text': 'Giza Water',
       'TextFieldLabel': 'Account Number(9-Digits)',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/Giza Water.jpeg',
       'email': 'GizaWater@smartpay.com'
     },
     {
       'text': 'Suez Canal Authority',
       'TextFieldLabel': 'Subscription number',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/Suez Canal Authority.png',
       'email': 'SuezCanal@smartpay.com'
-    },
-    {
-      'text': 'AlexWater',
-      'TextFieldLabel': 'E-Payment Code(6-Digits)',
-      'imageUrl': 'assets/images/we.png',
-      'email': 'AlexWater@smartpay.com'
     },
     {
       'text': 'Damitte Water Company',
       'TextFieldLabel': 'Client ID',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/Damitte Water Company.jpeg',
       'email': 'DamitteWater@smartpay.com'
-    },
-    {
-      'text': 'Minya Water Company',
-      'TextFieldLabel': 'Subscription Number',
-      'imageUrl': 'assets/images/we.png',
-      'email': 'MinyaWater@smartpay.com'
     },
     {
       'text': 'Matrouh Water Company',
       'TextFieldLabel': 'Subscription Number',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/Matrouh Water Company.jpeg',
       'email': 'MatrouhWater@smartpay.com'
     },
     {
       'text': 'Red Sea Water Company',
       'TextFieldLabel': 'Subscription Number',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/Red Sea Water Company.jpeg',
       'email': 'RedSeaWater@smartpay.com'
     },
     {
       'text': 'Fayoum Drinking and Water',
       'TextFieldLabel': 'Subscription Number',
-      'imageUrl': 'assets/images/we.png',
+      'imageUrl': 'assets/images/Fayoum Drinking and Water.jpeg',
       'email': 'FayoumWater@smartpay.com'
+    },
+    {
+      'text': 'Minya Water Company',
+      'TextFieldLabel': 'Subscription Number',
+      'imageUrl': 'assets/images/Damitte Water Company.jpeg',
+      'email': 'MinyaWater@smartpay.com'
     },
   ];
 
@@ -110,7 +104,7 @@ class WaterControllerImp extends WaterController {
     super.onInit();
   }
 
- @override
+  @override
   Future<void> Payapi() async {
     try {
       final SharedPreferences prefs = await _prefs;
@@ -130,7 +124,7 @@ class WaterControllerImp extends WaterController {
               'https://smart-pay.onrender.com/api/v0/transactions/transfer'));
       request.body = json.encode({
         "smartEmail": selectedProviderEmail.toString(),
-        "amount": 300,
+        "amount": 150,
       });
       request.headers.addAll(headers);
 
@@ -140,8 +134,10 @@ class WaterControllerImp extends WaterController {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());

@@ -84,7 +84,9 @@ class service extends StatelessWidget {
                         if (index == 1) {
                           Get.toNamed(AppRoute.Recievescreen);
                         }
-                        if (index == 2) {}
+                        if (index == 2) {
+                          Get.toNamed(AppRoute.Wallet);
+                        }
                         if (index == 3) {
                           Get.toNamed(AppRoute.Billpaymentscreen);
                         }

@@ -12,6 +12,12 @@ class Defoultcard extends StatelessWidget {
   Widget build(BuildContext context) {
     defaultCardController.loadDefaultCard();
     return Obx(() {
+            String cardNumber = defaultCardController.number.value;
+                  String last4Digits = cardNumber.length >= 4
+                      ? cardNumber.substring(cardNumber.length - 4)
+                      : cardNumber;
+             
+                  
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
@@ -46,7 +52,7 @@ class Defoultcard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    defaultCardController.number.value,
+                     '**** **** **** $last4Digits',
                     style: TextStyle(
                       color: Color(0xFF1E1E1E),
                       fontSize: 12,

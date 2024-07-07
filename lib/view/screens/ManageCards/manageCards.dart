@@ -14,6 +14,8 @@ class manageCards extends StatelessWidget {
     {'text': 'Add Card ', 'imageUrl': 'assets/images/Icon Plus.png'},
     {'text': 'Delete Account', 'imageUrl': 'assets/images/Archive.png'},
     {'text': 'Check Balance', 'imageUrl': 'assets/images/Bank Card.png'},
+    {'text': 'Recharge', 'imageUrl': 'assets/images/Recharge.png'},
+    {'text': 'Withdrow', 'imageUrl': 'assets/images/withdraw_6101768.png'},
   ];
 
   @override
@@ -153,6 +155,10 @@ class manageCards extends StatelessWidget {
                           );
                         } else if (index == 2) {
                           Get.toNamed(AppRoute.checkdefoultBalance);
+                        } else if (index == 3) {
+                          Get.toNamed(AppRoute.Recharge);
+                        } else if (index == 4) {
+                          Get.toNamed(AppRoute.Withdrow);
                         }
                       },
                       child: Padding(
@@ -199,24 +205,27 @@ class manageCards extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 38),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Custombuttonauth(
-                      buttonName: "Recharge",
-                      onPressed: () {
-                        Get.toNamed(AppRoute.Recharge);
-                      }),
-                  Custombuttonauth(
-                      buttonName: "Withdraw",
-                      onPressed: () {
-                        Get.toNamed(AppRoute.Withdrow);
-                      }),
-                ],
-              ),
-            ),
+            // Column(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.all(12.0),
+            //       child: Custombuttonauth(
+            //           buttonName: "Recharge",
+            //           onPressed: () {
+            //             Get.toNamed(AppRoute.Recharge);
+            //           }),
+            //     ),
+            //     Padding(
+            //       padding: const EdgeInsets.all(12.0),
+            //       child: Custombuttonauth(
+            //           buttonName: "Withdraw",
+            //           onPressed: () {
+            //             Get.toNamed(AppRoute.Withdrow);
+            //           }),
+            //     ),
+            //   ],
+            // ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -1,5 +1,6 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:gradp2p/core/constants/routes.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GenerateQRScreen extends StatelessWidget {
@@ -24,7 +25,8 @@ class GenerateQRScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Navigate back to previous screen
+                Get.toNamed(
+                    AppRoute.Recievescreen); // Navigate back to previous screen
               },
               child: Text('Back'),
             ),
@@ -34,4 +36,3 @@ class GenerateQRScreen extends StatelessWidget {
     );
   }
 }
-

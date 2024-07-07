@@ -65,7 +65,7 @@ class FinantialControllerImp extends FinantialController {
     if (formdata!.validate()) {
       print("Valid");
 
-      Payapi();
+      Get.toNamed(AppRoute.Financialinvoice);
     } else {
       print("Not Valid");
     }
@@ -108,8 +108,10 @@ class FinantialControllerImp extends FinantialController {
         print(await response.stream.bytesToString());
         print(selectedProviderEmail);
         Get.offAllNamed(AppRoute.Bottomnavbar);
+        Get.snackbar("Succes", 'Payment Succes');
       } else {
         print(response.reasonPhrase);
+        Get.snackbar("Error", 'Payment Failed');
       }
     } catch (e) {
       Get.snackbar("Exeption", e.toString());
